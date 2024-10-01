@@ -1,3 +1,3 @@
 package backend.academy.labyrinth.extraStructures.point;
 
-public record Point(int first, int second) {}
+public record Point(int y, int x) {}
