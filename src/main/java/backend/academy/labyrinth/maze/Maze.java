@@ -26,8 +26,8 @@ public class Maze {
             int y2 = point2.y(), x2 = point2.y();
             Cell cell1 = maze.get(y1).get(x1);
             Cell cell2 = maze.get(y2).get(x2);
-            cell1.neighbours.add(cell2);
-            cell2.neighbours.add(cell1);
+            cell1.addNeighbour(cell2);
+            cell2.addNeighbour(cell1);
         }
     }
 }
