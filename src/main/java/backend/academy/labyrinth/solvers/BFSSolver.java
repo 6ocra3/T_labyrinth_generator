@@ -4,8 +4,8 @@ import backend.academy.labyrinth.maze.Cell;
 import backend.academy.labyrinth.maze.Maze;
 import org.apache.commons.lang3.SerializationUtils;
 
-public class BFSSolvers {
-    public BFSSolvers(){
+public class BFSSolver {
+    public BFSSolver(){
         System.out.println("BFS солвер");
     }
 
