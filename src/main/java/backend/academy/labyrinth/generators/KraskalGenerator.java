@@ -2,12 +2,14 @@ package backend.academy.labyrinth.generators;
 
 import backend.academy.labyrinth.extraStructures.edge.Edge;
 import backend.academy.labyrinth.extraStructures.point.Point;
+import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 
 public class KraskalGenerator {
 
@@ -15,19 +17,23 @@ public class KraskalGenerator {
     int height;
     Map<Point, Point> roots = new HashMap<>();
     List<Edge> edges = new ArrayList<>();
+    @Getter
     List<Edge> maze = new ArrayList<>();
 
 
-    public KraskalGenerator(){
+    public KraskalGenerator(int width, int height){
+        this.width = width;
+        this.height = height;
         System.out.println("Kraskal генератор");
     }
 
     private Point findRoot(Point point){
         Point root = roots.get(point);
-        if(root != point){
-            return findRoot(root);
+        if (root != point) {
+            root = findRoot(root);
+            roots.put(point, root);
         }
-        return point;
+        return root;
     }
 
     private void unionSets(Point first, Point second){
@@ -50,12 +56,13 @@ public class KraskalGenerator {
             }
         }
 
-        Collections.shuffle(edges);
+        Random rnd = new Random();
+        Collections.shuffle(edges, rnd);
 
-        for(Edge edge : edges){
+        for (Edge edge : edges) {
             Point first = edge.first();
             Point second = edge.second();
-            if(roots.get(first) != roots.get(second)){
+            if (findRoot(first) != findRoot(second)) {
                 maze.add(edge);
                 unionSets(first, second);
             }

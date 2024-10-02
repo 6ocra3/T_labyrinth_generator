@@ -2,17 +2,18 @@ package backend.academy.labyrinth.maze;
 
 import backend.academy.labyrinth.extraStructures.point.Point;
 import lombok.Builder;
+import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
+@Getter
 public class Cell {
     Point point;
     List<Cell> neighbours = new ArrayList<>();
-    boolean hasTopNeighbour = false;
-    boolean hasRightNeighbour = false;
-    boolean hasBottomNeighbour = false;
-    boolean hasLeftNeighbour = false;
+    private boolean hasTopNeighbour = false;
+    private boolean hasRightNeighbour = false;
+    private boolean hasBottomNeighbour = false;
+    private boolean hasLeftNeighbour = false;
 
 
     public Cell(Point p){
@@ -23,14 +24,18 @@ public class Cell {
         switch (cell.point.y() - point.y()){
             case 1:
                 hasBottomNeighbour = true;
+                break;
             case -1:
                 hasTopNeighbour = true;
+                break;
         }
         switch (cell.point.x() - point.x()){
             case 1:
-                hasLeftNeighbour = true;
-            case -1:
                 hasRightNeighbour = true;
+                break;
+            case -1:
+                hasLeftNeighbour = true;
+                break;
         }
         neighbours.add(cell);
     }

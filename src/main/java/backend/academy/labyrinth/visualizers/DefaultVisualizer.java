@@ -4,7 +4,7 @@ import backend.academy.labyrinth.maze.Cell;
 import backend.academy.labyrinth.maze.Maze;
 import java.util.List;
 
-public class defaultVisualizer {
+public class DefaultVisualizer {
 
     static String CORNER = "○";
     static String TOP_BOT = "───";
@@ -13,7 +13,7 @@ public class defaultVisualizer {
     static String LEFT_RIGHT = "│";
     static String CELL = "   ";
 
-    public defaultVisualizer(){
+    public DefaultVisualizer(){
 
     }
 
