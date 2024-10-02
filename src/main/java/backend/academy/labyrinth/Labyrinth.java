@@ -5,6 +5,7 @@ import backend.academy.labyrinth.generators.KraskalGenerator;
 import backend.academy.labyrinth.inputOutput.DefaultIO;
 import backend.academy.labyrinth.maze.Maze;
 import backend.academy.labyrinth.solvers.BFSSolver;
+import backend.academy.labyrinth.solvers.DFSSolver;
 
 public class Labyrinth {
     public Labyrinth(){
@@ -18,7 +19,17 @@ public class Labyrinth {
         Maze maze = new Maze(generator.maze(),width, height, start, end);
         DefaultIO defaultIO = new DefaultIO();
         defaultIO.visualizeMaze(maze);
-        Maze solvedMaze = BFSSolver.solve(maze);
-        defaultIO.visualizeMaze(solvedMaze);
+        DFSSolver dfsSolver = new DFSSolver();
+        dfsSolver.maze(maze);
+        Maze solvedMaze = dfsSolver.stepByStepSolve();
+        while (!dfsSolver.isFinished()){
+            dfsSolver.nextStep();
+            defaultIO.visualizeMaze(solvedMaze);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
