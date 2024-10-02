@@ -10,11 +10,10 @@ import java.util.List;
 public class Cell {
     Point point;
     List<Cell> neighbours = new ArrayList<>();
-    private boolean hasTopNeighbour = false;
-    private boolean hasRightNeighbour = false;
-    private boolean hasBottomNeighbour = false;
-    private boolean hasLeftNeighbour = false;
-
+    private Cell topNeightbour = null;
+    private Cell rightNeightbour = null;
+    private Cell bottomNeightbour = null;
+    private Cell leftNeightbour = null;
 
     public Cell(Point p){
         point = p;
@@ -23,18 +22,18 @@ public class Cell {
     public void addNeighbour(Cell cell){
         switch (cell.point.y() - point.y()){
             case 1:
-                hasBottomNeighbour = true;
+                bottomNeightbour = cell;
                 break;
             case -1:
-                hasTopNeighbour = true;
+                topNeightbour = cell;
                 break;
         }
         switch (cell.point.x() - point.x()){
             case 1:
-                hasRightNeighbour = true;
+                rightNeightbour = cell;
                 break;
             case -1:
-                hasLeftNeighbour = true;
+                leftNeightbour = cell;
                 break;
         }
         neighbours.add(cell);
