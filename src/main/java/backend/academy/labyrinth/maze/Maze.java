@@ -10,10 +10,14 @@ public class Maze {
 
     int width;
     int height;
+    Cell start;
+    Cell end;
     @Getter
     List<List<Cell>> maze = new ArrayList<>();
 
-    public Maze(List<Edge> labyrinth, int width, int height){
+    public Maze(List<Edge> labyrinth, int width, int height, Point start, Point end){
+        this.width = width;
+        this.height = height;
         for(int i = 0; i<height;i++){
             List<Cell> temp = new ArrayList<>();
             for(int j = 0; j<width;j++){
@@ -31,5 +35,9 @@ public class Maze {
             cell1.addNeighbour(cell2);
             cell2.addNeighbour(cell1);
         }
+        this.start = maze.get(start.y()).get(start.x());
+        this.start.type(CellType.START);
+        this.end = maze.get(end.y()).get(end.x());
+        this.end.type(CellType.END);
     }
 }

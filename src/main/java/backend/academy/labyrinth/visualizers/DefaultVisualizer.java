@@ -12,6 +12,8 @@ public class DefaultVisualizer {
     static String EMPTY_LEFT_RIGHT = " ";
     static String LEFT_RIGHT = "│";
     static String CELL = "   ";
+    static String START_CELL = " A ";
+    static String END_CELL = " B ";
 
     public DefaultVisualizer(){
 
@@ -51,7 +53,11 @@ public class DefaultVisualizer {
         StringBuilder middlePart = new StringBuilder();
         for (Cell cell : row) {
             middlePart.append(cell.leftNeightbour() != null ? EMPTY_LEFT_RIGHT : LEFT_RIGHT);
-            middlePart.append(CELL);
+            switch (cell.type()){
+                case END -> middlePart.append(END_CELL);
+                case START -> middlePart.append(START_CELL);
+                case DEFAULT -> middlePart.append(CELL);
+            }
         }
         middlePart.append(LEFT_RIGHT);
         return middlePart;

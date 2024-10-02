@@ -3,6 +3,7 @@ package backend.academy.labyrinth.maze;
 import backend.academy.labyrinth.extraStructures.point.Point;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public class Cell {
     Point point;
     List<Cell> neighbours = new ArrayList<>();
+    @Setter
+    CellType type = CellType.DEFAULT;
     private Cell topNeightbour = null;
     private Cell rightNeightbour = null;
     private Cell bottomNeightbour = null;
