@@ -43,7 +43,7 @@ public class DefaultVisualizer {
         StringBuilder topPart = new StringBuilder();
         for (Cell cell : row) {
             topPart.append(CORNER);
-            topPart.append(cell.topNeightbour() != null ? EMPTY_TOP_BOT : TOP_BOT);
+            topPart.append(cell.topNeighbour() != null ? EMPTY_TOP_BOT : TOP_BOT);
         }
         topPart.append(CORNER);
         return topPart;
@@ -52,7 +52,7 @@ public class DefaultVisualizer {
     public static StringBuilder getMiddlePart(List<Cell> row){
         StringBuilder middlePart = new StringBuilder();
         for (Cell cell : row) {
-            middlePart.append(cell.leftNeightbour() != null ? EMPTY_LEFT_RIGHT : LEFT_RIGHT);
+            middlePart.append(cell.leftNeighbour() != null ? EMPTY_LEFT_RIGHT : LEFT_RIGHT);
             switch (cell.type()){
                 case END -> middlePart.append(END_CELL);
                 case START -> middlePart.append(START_CELL);
@@ -67,7 +67,7 @@ public class DefaultVisualizer {
         StringBuilder bottomPart = new StringBuilder();
         for (Cell cell : row) {
             bottomPart.append(CORNER);
-            bottomPart.append(cell.bottomNeightbour() != null ? EMPTY_TOP_BOT : TOP_BOT);
+            bottomPart.append(cell.bottomNeighbour() != null ? EMPTY_TOP_BOT : TOP_BOT);
         }
         bottomPart.append(CORNER);
         return bottomPart;

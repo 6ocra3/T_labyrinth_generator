@@ -1,7 +1,6 @@
 package backend.academy.labyrinth.maze;
 
 import backend.academy.labyrinth.extraStructures.point.Point;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
@@ -14,10 +13,10 @@ public class Cell implements Serializable {
     List<Cell> neighbours = new ArrayList<>();
     @Setter
     CellType type = CellType.DEFAULT;
-    private Cell topNeightbour = null;
-    private Cell rightNeightbour = null;
-    private Cell bottomNeightbour = null;
-    private Cell leftNeightbour = null;
+    private Cell topNeighbour = null;
+    private Cell rightNeighbour = null;
+    private Cell bottomNeighbour = null;
+    private Cell leftNeighbour = null;
     @Getter @Setter
     boolean visited = false;
 
@@ -28,18 +27,18 @@ public class Cell implements Serializable {
     public void addNeighbour(Cell cell){
         switch (cell.point.y() - point.y()){
             case 1:
-                bottomNeightbour = cell;
+                bottomNeighbour = cell;
                 break;
             case -1:
-                topNeightbour = cell;
+                topNeighbour = cell;
                 break;
         }
         switch (cell.point.x() - point.x()){
             case 1:
-                rightNeightbour = cell;
+                rightNeighbour = cell;
                 break;
             case -1:
-                leftNeightbour = cell;
+                leftNeighbour = cell;
                 break;
         }
         neighbours.add(cell);
