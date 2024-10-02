@@ -4,11 +4,12 @@ import backend.academy.labyrinth.extraStructures.point.Point;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Cell {
+public class Cell implements Serializable {
     Point point;
     List<Cell> neighbours = new ArrayList<>();
     @Setter
@@ -17,6 +18,8 @@ public class Cell {
     private Cell rightNeightbour = null;
     private Cell bottomNeightbour = null;
     private Cell leftNeightbour = null;
+    @Getter @Setter
+    boolean visited = false;
 
     public Cell(Point p){
         point = p;

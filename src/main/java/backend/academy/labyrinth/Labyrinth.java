@@ -4,6 +4,7 @@ import backend.academy.labyrinth.extraStructures.point.Point;
 import backend.academy.labyrinth.generators.KraskalGenerator;
 import backend.academy.labyrinth.inputOutput.DefaultIO;
 import backend.academy.labyrinth.maze.Maze;
+import backend.academy.labyrinth.solvers.BFSSolvers;
 
 public class Labyrinth {
     public Labyrinth(){
@@ -17,6 +18,6 @@ public class Labyrinth {
         Maze maze = new Maze(generator.maze(),width, height, start, end);
         DefaultIO defaultIO = new DefaultIO();
         defaultIO.visualizeMaze(maze);
-
+        Maze solved = BFSSolvers.solve(maze);
     }
 }

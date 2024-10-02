@@ -3,14 +3,17 @@ package backend.academy.labyrinth.maze;
 import backend.academy.labyrinth.extraStructures.edge.Edge;
 import backend.academy.labyrinth.extraStructures.point.Point;
 import lombok.Getter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Maze {
+public class Maze implements Serializable {
 
     int width;
     int height;
+    @Getter
     Cell start;
+    @Getter
     Cell end;
     @Getter
     List<List<Cell>> maze = new ArrayList<>();
