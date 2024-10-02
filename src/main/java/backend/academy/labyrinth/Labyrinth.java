@@ -18,6 +18,7 @@ public class Labyrinth {
         Maze maze = new Maze(generator.maze(),width, height, start, end);
         DefaultIO defaultIO = new DefaultIO();
         defaultIO.visualizeMaze(maze);
-        Maze solved = BFSSolvers.solve(maze);
+        Maze solvedMaze = BFSSolvers.solve(maze);
+        defaultIO.visualizeMaze(solvedMaze);
     }
 }

@@ -11,9 +11,10 @@ public class DefaultVisualizer {
     static String EMPTY_TOP_BOT = "   ";
     static String EMPTY_LEFT_RIGHT = " ";
     static String LEFT_RIGHT = "│";
-    static String CELL = "   ";
+    static String DEFAULT_CELL = "   ";
     static String START_CELL = " A ";
     static String END_CELL = " B ";
+    static String VISITED_CELL = " * ";
 
     public DefaultVisualizer(){
 
@@ -56,7 +57,7 @@ public class DefaultVisualizer {
             switch (cell.type()){
                 case END -> middlePart.append(END_CELL);
                 case START -> middlePart.append(START_CELL);
-                case DEFAULT -> middlePart.append(CELL);
+                case DEFAULT -> middlePart.append(cell.visited() ? VISITED_CELL : DEFAULT_CELL);
             }
         }
         middlePart.append(LEFT_RIGHT);
