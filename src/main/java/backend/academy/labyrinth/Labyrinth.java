@@ -7,6 +7,7 @@ import backend.academy.labyrinth.inputOutput.DefaultIO;
 import backend.academy.labyrinth.maze.Maze;
 import backend.academy.labyrinth.solvers.BFSSolver;
 import backend.academy.labyrinth.solvers.DFSSolver;
+import java.util.Iterator;
 
 public class Labyrinth {
     public Labyrinth(){
@@ -21,7 +22,16 @@ public class Labyrinth {
         Maze maze = new Maze(generator.maze(),width, height, start, end);
         DefaultIO defaultIO = new DefaultIO();
         defaultIO.visualizeMaze(maze);
-//        DFSSolver dfsSolver = new DFSSolver();
+        DFSSolver dfsSolver = new DFSSolver();
+        Iterator<Maze> solvIterator = dfsSolver.getIterator(maze);
+        while (solvIterator.hasNext()){
+            defaultIO.visualizeMaze(solvIterator.next());
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 //        dfsSolver.maze(maze);
 //        Maze solvedMaze = dfsSolver.stepByStepSolve();
 //        while (!dfsSolver.isFinished()){

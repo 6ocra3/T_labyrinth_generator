@@ -5,30 +5,14 @@ import backend.academy.labyrinth.maze.Maze;
 import lombok.Getter;
 import org.apache.commons.lang3.SerializationUtils;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
 public class DFSSolver {
-    private Maze maze;
-    private Maze solvedMaze;
-    private Cell start;
-    private Cell end;
-    private Set<Cell> visited;
-    Stack<Cell> stack = new Stack<>();
-    @Getter
-    boolean isFinished = false;
-
-    public void maze(Maze maze1){
-        this.maze = maze1;
-        this.solvedMaze = SerializationUtils.clone(maze1);
-        start = this.solvedMaze.start();
-        end = this.solvedMaze.end();
-    }
-
     public DFSSolver(){
 
-        System.out.println("BFS солвер");
     }
 
     public static boolean dfs(Cell cell, Cell end){
@@ -47,38 +31,59 @@ public class DFSSolver {
         return false;
     }
 
-    public Maze solve(){
-        Maze solvedMaze = SerializationUtils.clone(this.maze);
+    public Maze solve(Maze maze){
+        Maze solvedMaze = SerializationUtils.clone(maze);
         Cell start = solvedMaze.start();
         Cell end = solvedMaze.end();
         dfs(start, end);
         return solvedMaze;
     }
 
+    public Iterator<Maze> getIterator(Maze maze){
+        return new SolverIterator(maze);
+    }
 
-    public void nextStep(){
-        Cell last = stack.getLast();
-        for(Cell cell : last.neighbours()){
-            if(!visited.contains(cell)){
-                visited.add(cell);
-                stack.add(cell);
-                if(cell == end){
-                    isFinished = true;
-                    return;
-                }
-                cell.visited(true);
-                return;
-            }
+    public class SolverIterator implements Iterator{
+        @Getter
+        boolean isFinished = false;
+        Maze solvedMaze = null;
+        private Set<Cell> visited;
+        Cell end;
+        Stack<Cell> stack = new Stack<>();
+
+        public SolverIterator(Maze maze){
+            solvedMaze = SerializationUtils.clone(maze);
+            isFinished = false;
+            Cell start = solvedMaze.start();
+            end = solvedMaze.end();
+            visited = new HashSet<>();
+            stack.add(start);
         }
-        last.visited(false);
-        stack.pop();
+
+        @Override
+        public boolean hasNext() {
+            return !isFinished;
+        }
+
+        @Override
+        public Maze next(){
+            Cell last = stack.getLast();
+            for(Cell cell : last.neighbours()){
+                if(!visited.contains(cell)){
+                    visited.add(cell);
+                    stack.add(cell);
+                    if(cell == end){
+                        isFinished = true;
+                        return solvedMaze;
+                    }
+                    cell.visited(true);
+                    return solvedMaze;
+                }
+            }
+            last.visited(false);
+            stack.pop();
+            return solvedMaze;
+        }
     }
 
-
-    public Maze stepByStepSolve(){
-        isFinished = false;
-        visited = new HashSet<>();
-        stack.add(start);
-        return solvedMaze;
-    }
 }
