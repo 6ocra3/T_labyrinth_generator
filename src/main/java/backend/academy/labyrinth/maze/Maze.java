@@ -43,4 +43,12 @@ public class Maze implements Serializable {
         this.end = maze.get(end.y()).get(end.x());
         this.end.type(CellType.END);
     }
+
+    public void setAllVisitedTo(boolean value){
+        for(List<Cell> row : maze){
+            for(Cell cell : row){
+                cell.visited(value);
+            }
+        }
+    }
 }
