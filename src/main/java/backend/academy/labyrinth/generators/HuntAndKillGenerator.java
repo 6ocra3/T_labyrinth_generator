@@ -19,7 +19,9 @@ public class HuntAndKillGenerator {
     boolean[][] visited;
     Random rnd = new Random();
 
-
+    public static String getShortInfo(){
+        return "Hunt And Kill Generator";
+    }
 
     public HuntAndKillGenerator(int width, int height){
         this.width = width;

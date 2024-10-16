@@ -15,6 +15,10 @@ public class DFSSolver {
 
     }
 
+    public static String getShortInfo(){
+        return "DFS Solver";
+    }
+
     public static boolean dfs(Cell cell, Cell end){
         if(cell == end){
             return true;

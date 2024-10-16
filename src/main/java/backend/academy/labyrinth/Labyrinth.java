@@ -2,10 +2,8 @@ package backend.academy.labyrinth;
 
 import backend.academy.labyrinth.extraStructures.point.Point;
 import backend.academy.labyrinth.generators.HuntAndKillGenerator;
-import backend.academy.labyrinth.generators.KraskalGenerator;
 import backend.academy.labyrinth.inputOutput.DefaultIO;
 import backend.academy.labyrinth.maze.Maze;
-import backend.academy.labyrinth.solvers.BFSSolver;
 import backend.academy.labyrinth.solvers.DFSSolver;
 import java.util.Iterator;
 

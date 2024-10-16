@@ -18,6 +18,10 @@ public class BFSSolver {
 
     }
 
+    public static String getShortInfo(){
+        return "BFS Solver";
+    }
+
     public static void bfs(Cell start, Cell end, Queue<Cell> queue){
         Map<Cell, Cell> path = new HashMap<>();
         Set<Cell> visited = new HashSet<>();

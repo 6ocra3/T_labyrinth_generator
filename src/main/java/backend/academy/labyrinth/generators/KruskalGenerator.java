@@ -8,10 +8,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Random;
 
-public class KraskalGenerator {
+public class KruskalGenerator {
 
     int width;
     int height;
@@ -20,8 +19,11 @@ public class KraskalGenerator {
     @Getter
     List<Edge> maze = new ArrayList<>();
 
+    public static String getShortInfo(){
+        return "Kruskal Generator";
+    }
 
-    public KraskalGenerator(int width, int height){
+    public KruskalGenerator(int width, int height){
         this.width = width;
         this.height = height;
         System.out.println("Kraskal генератор");
