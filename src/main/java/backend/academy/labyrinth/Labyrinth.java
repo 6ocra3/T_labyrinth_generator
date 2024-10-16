@@ -1,5 +1,6 @@
 package backend.academy.labyrinth;
 
+import backend.academy.labyrinth.extraStructures.BaseObject;
 import backend.academy.labyrinth.extraStructures.point.Point;
 import backend.academy.labyrinth.generators.Generator;
 import backend.academy.labyrinth.generators.HuntAndKillGenerator;
@@ -21,24 +22,32 @@ public class Labyrinth {
 
     public Labyrinth(){
         System.out.println("Labyrinth запущен");
-        int width = 16;
-        int height = 16;
-        HuntAndKillGenerator generator = new HuntAndKillGenerator();
-        generator.generate(width, height);
-        Point start = new Point(0, 0);
-        Point end = new Point(width-1, height-1);
-        Maze maze = new Maze(generator.maze(),width, height, start, end);
         DefaultIO defaultIO = new DefaultIO();
+        int width = defaultIO.getSomeIntParams("Введите ширину лабиринта",16);
+        int height = defaultIO.getSomeIntParams("Введите высоту лабиринта",16);
+
+        int generatorInd = defaultIO.chooseObjectByIndex("Выберите генератор", new ArrayList<>(generatorsList));
+        Generator generator = generatorsList.get(generatorInd);
+
+        int solverInd = defaultIO.chooseObjectByIndex("Выберите алгоритм решения", new ArrayList<>(solversList));
+        Solver solver = solversList.get(solverInd);
+
+        Point start = defaultIO.getSomePoint("Введите координаты старта", 0, 0, width, 0, 0, height);
+        Point end = defaultIO.getSomePoint("Введите координаты конца", width-1, 0, width, height-1, 0, height);
+        Maze maze = new Maze(generator.generate(width, height),width, height, start, end);
         defaultIO.visualizeMaze(maze);
-        DFSSolver bfsSolver = new DFSSolver();
-        Iterator<Maze> solvIterator = bfsSolver.getIterator(maze);
-        while (solvIterator.hasNext()){
-            defaultIO.visualizeMaze(solvIterator.next());
-            try {
-                Thread.sleep(80);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        Maze solvedMaze = solver.solve(maze);
+        defaultIO.visualizeMaze(solvedMaze);
+
+//        DFSSolver bfsSolver = new DFSSolver();
+//        Iterator<Maze> solvIterator = bfsSolver.getIterator(maze);
+//        while (solvIterator.hasNext()){
+//            defaultIO.visualizeMaze(solvIterator.next());
+//            try {
+//                Thread.sleep(80);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 }

@@ -19,6 +19,7 @@ public class KruskalGenerator implements Generator {
     @Getter
     List<Edge> maze = new ArrayList<>();
 
+    @Override
     public String getShortInfo(){
         return "Kruskal Generator";
     }
@@ -43,7 +44,7 @@ public class KruskalGenerator implements Generator {
 
 
     @Override
-    public void generate(int width, int height){
+    public List<Edge> generate(int width, int height){
         this.width = width;
         this.height = height;
 
@@ -71,6 +72,7 @@ public class KruskalGenerator implements Generator {
                 unionSets(first, second);
             }
         }
+        return maze;
 
     }
 }

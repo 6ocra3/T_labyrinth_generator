@@ -19,6 +19,7 @@ public class HuntAndKillGenerator implements Generator {
     boolean[][] visited;
     Random rnd = new Random();
 
+    @Override
     public String getShortInfo(){
         return "Hunt And Kill Generator";
     }
@@ -82,7 +83,7 @@ public class HuntAndKillGenerator implements Generator {
     }
 
     @Override
-    public void generate(int width, int height){
+    public List<Edge> generate(int width, int height){
         this.width = width;
         this.height = height;
         visited = new boolean[height][width];
@@ -101,5 +102,6 @@ public class HuntAndKillGenerator implements Generator {
             }
             kill(p);
         }
+        return maze;
     }
 }
