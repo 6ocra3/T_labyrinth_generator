@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class KruskalGenerator {
+public class KruskalGenerator implements Generator {
 
     int width;
     int height;
@@ -19,14 +19,11 @@ public class KruskalGenerator {
     @Getter
     List<Edge> maze = new ArrayList<>();
 
-    public static String getShortInfo(){
+    public String getShortInfo(){
         return "Kruskal Generator";
     }
 
-    public KruskalGenerator(int width, int height){
-        this.width = width;
-        this.height = height;
-        System.out.println("Kraskal генератор");
+    public KruskalGenerator(){
     }
 
     private Point findRoot(Point point){
@@ -44,7 +41,12 @@ public class KruskalGenerator {
         roots.put(firstRoot, secondRoot);
     }
 
-    public void generate(){
+
+    @Override
+    public void generate(int width, int height){
+        this.width = width;
+        this.height = height;
+
         for(int i = 0; i<height;i++){
             for(int j = 0; j<width;j++){
                 Point point = new Point(i, j);

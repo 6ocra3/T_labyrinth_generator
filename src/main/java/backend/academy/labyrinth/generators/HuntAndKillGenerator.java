@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class HuntAndKillGenerator {
+public class HuntAndKillGenerator implements Generator {
     int width;
     int height;
     @Getter
@@ -19,17 +19,11 @@ public class HuntAndKillGenerator {
     boolean[][] visited;
     Random rnd = new Random();
 
-    public static String getShortInfo(){
+    public String getShortInfo(){
         return "Hunt And Kill Generator";
     }
 
-    public HuntAndKillGenerator(int width, int height){
-        this.width = width;
-        this.height = height;
-        visited = new boolean[height][width];
-        for(int i = 0; i<height;i++){
-            Arrays.fill(visited[i], false);
-        }
+    public HuntAndKillGenerator(){
     }
 
     public boolean inBounds(int x, int y){
@@ -87,7 +81,15 @@ public class HuntAndKillGenerator {
         return null;
     }
 
-    public void generate(){
+    @Override
+    public void generate(int width, int height){
+        this.width = width;
+        this.height = height;
+        visited = new boolean[height][width];
+        for(int i = 0; i<height;i++){
+            Arrays.fill(visited[i], false);
+        }
+
         int startX = rnd.nextInt(width);
         int startY = rnd.nextInt(height);
 

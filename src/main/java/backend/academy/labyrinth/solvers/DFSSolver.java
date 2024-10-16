@@ -10,16 +10,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-public class DFSSolver {
+public class DFSSolver implements Solver {
     public DFSSolver(){
 
     }
 
-    public static String getShortInfo(){
+    public String getShortInfo(){
         return "DFS Solver";
     }
 
-    public static boolean dfs(Cell cell, Cell end){
+    public boolean dfs(Cell cell, Cell end){
         if(cell == end){
             return true;
         }
@@ -35,6 +35,7 @@ public class DFSSolver {
         return false;
     }
 
+    @Override
     public Maze solve(Maze maze){
         Maze solvedMaze = SerializationUtils.clone(maze);
         Cell start = solvedMaze.start();

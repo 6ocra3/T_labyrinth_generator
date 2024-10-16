@@ -13,16 +13,16 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-public class BFSSolver {
+public class BFSSolver implements Solver {
     public BFSSolver(){
 
     }
 
-    public static String getShortInfo(){
+    public String getShortInfo(){
         return "BFS Solver";
     }
 
-    public static void bfs(Cell start, Cell end, Queue<Cell> queue){
+    public void bfs(Cell start, Cell end, Queue<Cell> queue){
         Map<Cell, Cell> path = new HashMap<>();
         Set<Cell> visited = new HashSet<>();
         visited.add(start);
@@ -47,7 +47,8 @@ public class BFSSolver {
         }
     }
 
-    public static Maze solve(Maze maze){
+    @Override
+    public Maze solve(Maze maze){
         Maze solvedMaze = SerializationUtils.clone(maze);
         Cell start = solvedMaze.start();
         Cell end = solvedMaze.end();
