@@ -3,8 +3,11 @@ package backend.academy.labyrinth.inputOutput;
 import backend.academy.labyrinth.extraStructures.BaseObject;
 import backend.academy.labyrinth.extraStructures.point.Point;
 import backend.academy.labyrinth.maze.Maze;
+import backend.academy.labyrinth.solvers.Solver;
 import backend.academy.labyrinth.visualizers.DefaultVisualizer;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.Setter;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
@@ -30,6 +33,23 @@ public class DefaultIO {
         clearOutput();
         terminal.writer().println(DefaultVisualizer.visualizeMaze(maze));
         terminal.flush();
+    }
+
+    public void visualizeStepByStep(Solver solver, Maze maze, AtomicBoolean interrupted){
+        Iterator<Maze> solvIterator = solver.getIterator(maze);
+        while (solvIterator.hasNext()){
+            if(interrupted.get()){
+                break;
+            }
+            this.visualizeMaze(solvIterator.next());
+            try {
+                Thread.sleep(80);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Maze solvedMaze = solver.solve(maze);
+        this.visualizeMaze(solvedMaze);
     }
 
     private void clearOutput() {

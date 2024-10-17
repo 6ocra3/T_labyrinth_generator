@@ -1,6 +1,5 @@
 package backend.academy.labyrinth;
 
-import backend.academy.labyrinth.extraStructures.BaseObject;
 import backend.academy.labyrinth.extraStructures.point.Point;
 import backend.academy.labyrinth.generators.Generator;
 import backend.academy.labyrinth.generators.HuntAndKillGenerator;
@@ -14,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import sun.misc.Signal;
 
 public class Labyrinth {
 
@@ -23,6 +24,7 @@ public class Labyrinth {
     public Labyrinth(){
         System.out.println("Labyrinth запущен");
         DefaultIO defaultIO = new DefaultIO();
+
         int width = defaultIO.getSomeIntParams("Введите ширину лабиринта",16);
         int height = defaultIO.getSomeIntParams("Введите высоту лабиринта",16);
 
@@ -35,19 +37,17 @@ public class Labyrinth {
         Point start = defaultIO.getSomePoint("Введите координаты старта", 0, 0, width, 0, 0, height);
         Point end = defaultIO.getSomePoint("Введите координаты конца", width-1, 0, width, height-1, 0, height);
         Maze maze = new Maze(generator.generate(width, height),width, height, start, end);
-        defaultIO.visualizeMaze(maze);
-        Maze solvedMaze = solver.solve(maze);
-        defaultIO.visualizeMaze(solvedMaze);
 
-//        DFSSolver bfsSolver = new DFSSolver();
-//        Iterator<Maze> solvIterator = bfsSolver.getIterator(maze);
-//        while (solvIterator.hasNext()){
-//            defaultIO.visualizeMaze(solvIterator.next());
-//            try {
-//                Thread.sleep(80);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        defaultIO.visualizeMaze(maze);
+
+        AtomicBoolean interrupted = new AtomicBoolean(false);
+
+        Signal.handle(new Signal("INT"), signal -> {
+            interrupted.set(true);
+        });
+
+        defaultIO.visualizeStepByStep(solver, maze, interrupted);
+
+
     }
 }
