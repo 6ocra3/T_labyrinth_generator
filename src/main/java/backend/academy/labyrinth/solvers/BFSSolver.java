@@ -41,6 +41,7 @@ public class BFSSolver implements Solver {
             }
         }
         Cell backPath = end;
+        end.visited(true);
         while (path.get(backPath) != null){
             backPath = path.get(backPath);
             backPath.visited(true);

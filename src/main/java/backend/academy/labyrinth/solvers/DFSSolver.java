@@ -39,6 +39,7 @@ public class DFSSolver implements Solver {
     public Maze solve(Maze maze){
         Maze solvedMaze = SerializationUtils.clone(maze);
         Cell start = solvedMaze.start();
+        start.visited(true);
         Cell end = solvedMaze.end();
         dfs(start, end);
         return solvedMaze;
