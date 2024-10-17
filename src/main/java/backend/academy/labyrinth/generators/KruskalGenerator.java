@@ -3,6 +3,7 @@ package backend.academy.labyrinth.generators;
 import backend.academy.labyrinth.extraStructures.edge.Edge;
 import backend.academy.labyrinth.extraStructures.point.Point;
 import lombok.Getter;
+import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +17,8 @@ public class KruskalGenerator implements Generator {
     int height;
     Map<Point, Point> roots = new HashMap<>();
     List<Edge> edges = new ArrayList<>();
+    @Setter
+    Random rnd = new Random();
     @Getter
     List<Edge> maze = new ArrayList<>();
 
@@ -61,7 +64,6 @@ public class KruskalGenerator implements Generator {
             }
         }
 
-        Random rnd = new Random();
         Collections.shuffle(edges, rnd);
 
         for (Edge edge : edges) {

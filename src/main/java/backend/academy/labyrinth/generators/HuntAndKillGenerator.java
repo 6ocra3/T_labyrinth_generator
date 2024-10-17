@@ -3,6 +3,7 @@ package backend.academy.labyrinth.generators;
 import backend.academy.labyrinth.extraStructures.edge.Edge;
 import backend.academy.labyrinth.extraStructures.point.Point;
 import lombok.Getter;
+import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,6 +18,7 @@ public class HuntAndKillGenerator implements Generator {
     @Getter
     List<Edge> maze = new ArrayList<>();
     boolean[][] visited;
+    @Setter
     Random rnd = new Random();
 
     @Override
