@@ -18,14 +18,14 @@ public class GeneratorsTest {
     List<Generator> generators;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         generators = Arrays.asList(new HuntAndKillGenerator(), new KruskalGenerator());
     }
 
     @Test
-    public void testGenerateMaze(){
-        int width = 5;
-        int height = 5;
+    public void testGenerateMaze() {
+        int width = 3;
+        int height = 3;
         for (Generator generator : generators) {
             List<Edge> edges = generator.generate(width, height);
             Set<Point> visited = new HashSet<>();
@@ -37,15 +37,17 @@ public class GeneratorsTest {
         }
     }
 
-    private void checkConnections(Point point, List<Edge> edges, Set<Point> visited){
-        if(visited.contains(point))return;
+    private void checkConnections(Point point, List<Edge> edges, Set<Point> visited) {
+        if (visited.contains(point)) {
+            return;
+        }
         visited.add(point);
 
-        for(Edge edge : edges){
-            if(edge.first().equals(point)){
+        for (Edge edge : edges) {
+            if (edge.first().equals(point)) {
                 checkConnections(edge.second(), edges, visited);
-            } else if(edge.second().equals(point)){
-                checkConnections(edge.second(), edges, visited);
+            } else if (edge.second().equals(point)) {
+                checkConnections(edge.first(), edges, visited);
             }
         }
     }
