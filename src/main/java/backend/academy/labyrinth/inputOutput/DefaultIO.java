@@ -47,6 +47,7 @@ public class DefaultIO {
                 break;
             }
             this.visualizeMaze(solvIterator.next());
+            terminal.writer().println("Ctrl+C to skip");
             try {
                 Thread.sleep(FRAME_DELAY);
             } catch (InterruptedException e) {
