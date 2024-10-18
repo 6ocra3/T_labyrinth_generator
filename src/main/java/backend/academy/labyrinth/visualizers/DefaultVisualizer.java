@@ -6,26 +6,26 @@ import java.util.List;
 
 public class DefaultVisualizer {
 
-    static String CORNER = "○";
-    static String TOP_BOT = "───";
-    static String EMPTY_TOP_BOT = "   ";
-    static String EMPTY_LEFT_RIGHT = " ";
-    static String LEFT_RIGHT = "│";
-    static String DEFAULT_CELL = "   ";
-    static String START_CELL = " A ";
-    static String END_CELL = " B ";
-    static String VISITED_CELL = " * ";
+    static final String CORNER = "○";
+    static final String TOP_BOT = "───";
+    static final String EMPTY_TOP_BOT = "   ";
+    static final String EMPTY_LEFT_RIGHT = " ";
+    static final String LEFT_RIGHT = "│";
+    static final String DEFAULT_CELL = EMPTY_TOP_BOT;
+    static final String START_CELL = " A ";
+    static final String END_CELL = " B ";
+    static final String VISITED_CELL = " * ";
 
-    public DefaultVisualizer(){
+    private DefaultVisualizer() {
 
     }
 
-    public static String visualizeMaze(Maze maze){
+    public static String visualizeMaze(Maze maze) {
         StringBuilder itog = new StringBuilder();
 
-        for(int i = 0; i<maze.maze().size();i++){
+        for (int i = 0; i < maze.maze().size(); i++) {
             List<Cell> row = maze.maze().get(i);
-            if(i == 0){
+            if (i == 0) {
                 String topPart = getTopPart(row).append("\n").toString();
                 itog.append(topPart);
             }
@@ -40,7 +40,7 @@ public class DefaultVisualizer {
         return itog.toString();
     }
 
-    public static StringBuilder getTopPart(List<Cell> row){
+    public static StringBuilder getTopPart(List<Cell> row) {
         StringBuilder topPart = new StringBuilder();
         for (Cell cell : row) {
             topPart.append(CORNER);
@@ -50,21 +50,22 @@ public class DefaultVisualizer {
         return topPart;
     }
 
-    public static StringBuilder getMiddlePart(List<Cell> row){
+    public static StringBuilder getMiddlePart(List<Cell> row) {
         StringBuilder middlePart = new StringBuilder();
         for (Cell cell : row) {
             middlePart.append(cell.leftNeighbour() != null ? EMPTY_LEFT_RIGHT : LEFT_RIGHT);
-            switch (cell.type()){
+            switch (cell.type()) {
                 case END -> middlePart.append(END_CELL);
                 case START -> middlePart.append(START_CELL);
                 case DEFAULT -> middlePart.append(cell.visited() ? VISITED_CELL : DEFAULT_CELL);
+                default -> middlePart.append(DEFAULT_CELL);
             }
         }
         middlePart.append(LEFT_RIGHT);
         return middlePart;
     }
 
-    public static StringBuilder getBottomPart(List<Cell> row){
+    public static StringBuilder getBottomPart(List<Cell> row) {
         StringBuilder bottomPart = new StringBuilder();
         for (Cell cell : row) {
             bottomPart.append(CORNER);

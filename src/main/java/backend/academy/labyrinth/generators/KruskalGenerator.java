@@ -2,14 +2,14 @@ package backend.academy.labyrinth.generators;
 
 import backend.academy.labyrinth.extraStructures.edge.Edge;
 import backend.academy.labyrinth.extraStructures.point.Point;
-import lombok.Getter;
-import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import lombok.Getter;
+import lombok.Setter;
 
 public class KruskalGenerator implements Generator {
 
@@ -23,14 +23,14 @@ public class KruskalGenerator implements Generator {
     List<Edge> maze = new ArrayList<>();
 
     @Override
-    public String getShortInfo(){
+    public String getShortInfo() {
         return "Kruskal Generator";
     }
 
-    public KruskalGenerator(){
+    public KruskalGenerator() {
     }
 
-    private Point findRoot(Point point){
+    private Point findRoot(Point point) {
         Point root = roots.get(point);
         if (root != point) {
             root = findRoot(root);
@@ -39,27 +39,26 @@ public class KruskalGenerator implements Generator {
         return root;
     }
 
-    private void unionSets(Point first, Point second){
+    private void unionSets(Point first, Point second) {
         Point firstRoot = findRoot(first);
         Point secondRoot = findRoot(second);
         roots.put(firstRoot, secondRoot);
     }
 
-
     @Override
-    public List<Edge> generate(int width, int height){
+    public List<Edge> generate(int width, int height) {
         this.width = width;
         this.height = height;
 
-        for(int i = 0; i<height;i++){
-            for(int j = 0; j<width;j++){
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 Point point = new Point(i, j);
                 roots.put(point, point);
-                if(i < height-1){
-                    edges.add(new Edge(point, new Point(i+1, j)));
+                if (i < height - 1) {
+                    edges.add(new Edge(point, new Point(i + 1, j)));
                 }
-                if(j < width-1){
-                    edges.add(new Edge(point, new Point(i, j+1)));
+                if (j < width - 1) {
+                    edges.add(new Edge(point, new Point(i, j + 1)));
                 }
             }
         }

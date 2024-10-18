@@ -2,31 +2,32 @@ package backend.academy.labyrinth.solvers;
 
 import backend.academy.labyrinth.maze.Cell;
 import backend.academy.labyrinth.maze.Maze;
-import lombok.Getter;
-import org.apache.commons.lang3.SerializationUtils;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
+import lombok.Getter;
+import org.apache.commons.lang3.SerializationUtils;
+
 
 public class DFSSolver implements Solver {
-    public DFSSolver(){
+    public DFSSolver() {
 
     }
 
-    public String getShortInfo(){
+    public String getShortInfo() {
         return "DFS Solver";
     }
 
-    public boolean dfs(Cell cell, Cell end){
-        if(cell == end){
+    public boolean dfs(Cell cell, Cell end) {
+        if (cell == end) {
             return true;
         }
-        for(Cell neighbour : cell.neighbours()){
-            if(!neighbour.visited()){
+        for (Cell neighbour : cell.neighbours()) {
+            if (!neighbour.visited()) {
                 neighbour.visited(true);
-                if(dfs(neighbour, end)){
+                if (dfs(neighbour, end)) {
                     return true;
                 }
                 neighbour.visited(false);
@@ -36,7 +37,7 @@ public class DFSSolver implements Solver {
     }
 
     @Override
-    public Maze solve(Maze maze){
+    public Maze solve(Maze maze) {
         Maze solvedMaze = SerializationUtils.clone(maze);
         Cell start = solvedMaze.start();
         start.visited(true);
@@ -45,19 +46,19 @@ public class DFSSolver implements Solver {
         return solvedMaze;
     }
 
-    public Iterator<Maze> getIterator(Maze maze){
+    public Iterator<Maze> getIterator(Maze maze) {
         return new SolverIterator(maze);
     }
 
-    public class SolverIterator implements Iterator{
+    public class SolverIterator implements Iterator {
         @Getter
         boolean isFinished = false;
         Maze solvedMaze = null;
         private Set<Cell> visited;
         Cell end;
-        Stack<Cell> stack = new Stack<>();
+        Deque<Cell> stack = new ArrayDeque<>();
 
-        public SolverIterator(Maze maze){
+        public SolverIterator(Maze maze) {
             solvedMaze = SerializationUtils.clone(maze);
             isFinished = false;
             Cell start = solvedMaze.start();
@@ -72,13 +73,13 @@ public class DFSSolver implements Solver {
         }
 
         @Override
-        public Maze next(){
+        public Maze next() {
             Cell last = stack.getLast();
-            for(Cell cell : last.neighbours()){
-                if(!visited.contains(cell)){
+            for (Cell cell : last.neighbours()) {
+                if (!visited.contains(cell)) {
                     visited.add(cell);
                     stack.add(cell);
-                    if(cell == end){
+                    if (cell == end) {
                         isFinished = true;
                         return solvedMaze;
                     }
@@ -87,7 +88,7 @@ public class DFSSolver implements Solver {
                 }
             }
             last.visited(false);
-            stack.pop();
+            stack.removeLast();
             return solvedMaze;
         }
     }

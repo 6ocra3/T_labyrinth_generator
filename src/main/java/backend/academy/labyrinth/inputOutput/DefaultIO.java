@@ -13,39 +13,44 @@ import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultIO {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultIO.class);
     protected Terminal terminal;
     @Setter
     protected LineReader lineReader;
-    public DefaultIO(){
+    static final int FRAME_DELAY = 80;
+
+    public DefaultIO() {
         try {
             terminal = TerminalBuilder.builder()
                 .system(true)
                 .build();
             lineReader = LineReaderBuilder.builder().terminal(terminal).build();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error initializing terminal or line reader", e);
         }
     }
 
-    public void visualizeMaze(Maze maze){
+    public void visualizeMaze(Maze maze) {
         clearOutput();
         terminal.writer().println(DefaultVisualizer.visualizeMaze(maze));
         terminal.flush();
     }
 
-    public void visualizeStepByStep(Solver solver, Maze maze, AtomicBoolean interrupted){
+    public void visualizeStepByStep(Solver solver, Maze maze, AtomicBoolean interrupted) {
         Iterator<Maze> solvIterator = solver.getIterator(maze);
-        while (solvIterator.hasNext()){
-            if(interrupted.get()){
+        while (solvIterator.hasNext()) {
+            if (interrupted.get()) {
                 break;
             }
             this.visualizeMaze(solvIterator.next());
             try {
-                Thread.sleep(80);
+                Thread.sleep(FRAME_DELAY);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error("Thread was interrupted during visualization", e);
             }
         }
         Maze solvedMaze = solver.solve(maze);
@@ -56,16 +61,16 @@ public class DefaultIO {
         terminal.writer().println("\033[H\033[2J");
     }
 
-    public int chooseObjectByIndex(String title, List<BaseObject> objects){
+    public int chooseObjectByIndex(String title, List<BaseObject> objects) {
         terminal.writer().println(title);
-        for(int i = 0; i<objects.size();i++){
-            String row = i + " " + (i == 0 ? "[default] ": "") + "— " + objects.get(i).getShortInfo();
+        for (int i = 0; i < objects.size(); i++) {
+            String row = i + " " + (i == 0 ? "[default] " : "") + "— " + objects.get(i).getShortInfo();
             terminal.writer().println(row);
         }
-        return getNumOrDefault(0,0, objects.size());
+        return getNumOrDefault(0, 0, objects.size());
     }
 
-    public int getSomeIntParams(String title, int defaultNum){
+    public int getSomeIntParams(String title, int defaultNum) {
         terminal.writer().println(title);
         return getNumOrDefault(defaultNum);
     }
@@ -74,7 +79,7 @@ public class DefaultIO {
         return getNumOrDefault(defaultNum, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    public int getNumOrDefault(int defaultNum, int min, int max){
+    public int getNumOrDefault(int defaultNum, int min, int max) {
         int num;
         String input = lineReader.readLine();
         try {
@@ -88,14 +93,11 @@ public class DefaultIO {
         return num;
     }
 
-    public Point getSomePoint(String title, int defaultX, int minX, int maxX, int defaultY, int minY, int maxY){
+    public Point getSomePoint(String title, int defaultX, int minX, int maxX, int defaultY, int minY, int maxY) {
         terminal.writer().println(title);
-        int X = getNumOrDefault(defaultX, minX, maxX);
-        int Y = getNumOrDefault(defaultY, minY, maxY);
-        return  new Point(Y, X);
+        int x = getNumOrDefault(defaultX, minX, maxX);
+        int y = getNumOrDefault(defaultY, minY, maxY);
+        return new Point(y, x);
     }
-
-
-
 
 }

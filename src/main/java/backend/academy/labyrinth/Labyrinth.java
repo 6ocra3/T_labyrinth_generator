@@ -11,22 +11,22 @@ import backend.academy.labyrinth.solvers.DFSSolver;
 import backend.academy.labyrinth.solvers.Solver;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import sun.misc.Signal;
 
 public class Labyrinth {
+
+    static final int DEFAULT_WIDTH = 16;
+    static final int DEFAULT_HEIGHT = 16;
 
     List<Generator> generatorsList = Arrays.asList(new HuntAndKillGenerator(), new KruskalGenerator());
     List<Solver> solversList = Arrays.asList(new BFSSolver(), new DFSSolver());
 
-    public Labyrinth(){
-        System.out.println("Labyrinth запущен");
+    public Labyrinth() {
         DefaultIO defaultIO = new DefaultIO();
 
-        int width = defaultIO.getSomeIntParams("Введите ширину лабиринта",16);
-        int height = defaultIO.getSomeIntParams("Введите высоту лабиринта",16);
+        int width = defaultIO.getSomeIntParams("Введите ширину лабиринта", DEFAULT_WIDTH);
+        int height = defaultIO.getSomeIntParams("Введите высоту лабиринта", DEFAULT_HEIGHT);
 
         int generatorInd = defaultIO.chooseObjectByIndex("Выберите генератор", new ArrayList<>(generatorsList));
         Generator generator = generatorsList.get(generatorInd);
@@ -35,19 +35,19 @@ public class Labyrinth {
         Solver solver = solversList.get(solverInd);
 
         Point start = defaultIO.getSomePoint("Введите координаты старта", 0, 0, width, 0, 0, height);
-        Point end = defaultIO.getSomePoint("Введите координаты конца", width-1, 0, width, height-1, 0, height);
-        Maze maze = new Maze(generator.generate(width, height),width, height, start, end);
+        Point end = defaultIO.getSomePoint("Введите координаты конца", width - 1, 0, width, height - 1, 0, height);
+        Maze maze = new Maze(generator.generate(width, height), width, height, start, end);
 
         defaultIO.visualizeMaze(maze);
 
         AtomicBoolean interrupted = new AtomicBoolean(false);
 
-        Signal.handle(new Signal("INT"), signal -> {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Код для обработки прерывания (например, установка значения AtomicBoolean)
             interrupted.set(true);
-        });
+        }));
 
         defaultIO.visualizeStepByStep(solver, maze, interrupted);
-
 
     }
 }
