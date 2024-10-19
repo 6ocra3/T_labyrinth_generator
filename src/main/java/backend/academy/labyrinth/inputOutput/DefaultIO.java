@@ -9,22 +9,22 @@ import backend.academy.labyrinth.visualizers.DefaultVisualizer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+import lombok.Getter;
 import lombok.Setter;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DefaultIO {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultIO.class);
+    @Getter
     protected Terminal terminal;
     @Setter
     AbstractVisualizer visualizer;
     @Setter
     protected LineReader lineReader;
-    static final int FRAME_DELAY = 80;
+    static final int FRAME_DELAY = 200;
 
     public DefaultIO() {
         try {
@@ -32,8 +32,8 @@ public class DefaultIO {
                 .system(true)
                 .build();
             lineReader = LineReaderBuilder.builder().terminal(terminal).build();
-        } catch (Exception e) {
-            LOGGER.error("Error initializing terminal or line reader", e);
+        } catch (Exception _) {
+
         }
     }
 
@@ -43,7 +43,13 @@ public class DefaultIO {
         terminal.flush();
     }
 
-    public void visualizeStepByStep(Solver solver, Maze maze, AtomicBoolean interrupted) {
+    public void visualizeStepByStep(Solver solver, Maze maze) {
+        AtomicBoolean interrupted = new AtomicBoolean(false);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            interrupted.set(true);
+        }));
+
         Iterator<Maze> solvIterator = solver.getIterator(maze);
         while (solvIterator.hasNext()) {
             if (interrupted.get()) {
@@ -53,8 +59,7 @@ public class DefaultIO {
             terminal.writer().println("Ctrl+C to skip");
             try {
                 Thread.sleep(FRAME_DELAY);
-            } catch (InterruptedException e) {
-                LOGGER.error("Thread was interrupted during visualization", e);
+            } catch (InterruptedException _) {
             }
         }
         Maze solvedMaze = solver.solve(maze);
@@ -66,12 +71,19 @@ public class DefaultIO {
     }
 
     public int chooseObjectByIndex(String title, List<BaseObject> objects) {
+        List<String> points = objects.stream()
+            .map(BaseObject::getShortInfo)
+            .collect(Collectors.toList());
+        return chooseObjectMeny(title, points);
+    }
+
+    public int chooseObjectMeny(String title, List<String> points) {
         terminal.writer().println(title);
-        for (int i = 0; i < objects.size(); i++) {
-            String row = i + " " + (i == 0 ? "[default] " : "") + "— " + objects.get(i).getShortInfo();
+        for (int i = 0; i < points.size(); i++) {
+            String row = i + " " + (i == 0 ? "[default] " : "") + "— " + points.get(i);
             terminal.writer().println(row);
         }
-        return getNumOrDefault(0, 0, objects.size());
+        return getNumOrDefault(0, 0, points.size());
     }
 
     public int getSomeIntParams(String title, int defaultNum) {

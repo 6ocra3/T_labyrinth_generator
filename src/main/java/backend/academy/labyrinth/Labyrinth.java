@@ -20,43 +20,73 @@ public class Labyrinth {
     static final int DEFAULT_WIDTH = 16;
     static final int DEFAULT_HEIGHT = 16;
 
+    DefaultIO defaultIO = new DefaultIO();
     List<Generator> generatorsList = Arrays.asList(new HuntAndKillGenerator(), new KruskalGenerator());
     List<Solver> solversList = Arrays.asList(new BFSSolver(), new DFSSolver());
+    List<Solver> weightedSolversList = List.of(new WeightedDijkstraSolver());
+    List<Solver> solversForLabyrinthType = solversList;
+    List<String> labyrinthTypes = Arrays.asList("Простой лабиринт", "Лабиринт с циклами и взвешенными ребрами");
+
+    int width;
+    int height;
+    Maze maze;
+    Generator generator;
+    Solver solver;
+    int labyrinthType;
 
     public Labyrinth() {
-        DefaultIO defaultIO = new DefaultIO();
-        WeightedVisualizer weightedVisualizer = new WeightedVisualizer();
-        defaultIO.visualizer(weightedVisualizer);
 
-        int width = defaultIO.getSomeIntParams("Введите ширину лабиринта", DEFAULT_WIDTH);
-        int height = defaultIO.getSomeIntParams("Введите высоту лабиринта", DEFAULT_HEIGHT);
+        getBaseParams();
 
-        int generatorInd = defaultIO.chooseObjectByIndex("Выберите генератор", new ArrayList<>(generatorsList));
-        Generator generator = generatorsList.get(generatorInd);
+        getGeneratorAndSolver();
 
-        int solverInd = defaultIO.chooseObjectByIndex("Выберите алгоритм решения", new ArrayList<>(solversList));
-        Solver solver = solversList.get(solverInd);
+        createMaze();
 
-        Point start = defaultIO.getSomePoint("Введите координаты старта", 0, 0, width, 0, 0, height);
-        Point end = defaultIO.getSomePoint("Введите координаты конца", width - 1, 0, width, height - 1, 0, height);
-        Maze maze = new Maze(generator.generate(width, height), width, height, start, end);
+        if(labyrinthType == 1){
+            modifyMaze();
+        }
 
-        maze.modifyMaze((int)((width*height) * 0.08), 4, 4);
         defaultIO.visualizeMaze(maze);
 
         WeightedDijkstraSolver weightedSolver = new WeightedDijkstraSolver();
         defaultIO.visualizeMaze(weightedSolver.solve(maze));
 
-//        AtomicBoolean interrupted = new AtomicBoolean(false);
+        defaultIO.visualizeStepByStep(solver, maze);
 
-//        AtomicBoolean interrupted = new AtomicBoolean(false);
-//
-//        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-//            // Код для обработки прерывания (например, установка значения AtomicBoolean)
-//            interrupted.set(true);
-//        }));
-//
-//        defaultIO.visualizeStepByStep(solver, maze, interrupted, false);
+    }
 
+    private void createMaze(){
+        Point start = defaultIO.getSomePoint("Введите координаты старта", 0, 0, width, 0, 0, height);
+        Point end = defaultIO.getSomePoint("Введите координаты конца", width - 1, 0, width, height - 1, 0, height);
+        maze = new Maze(generator.generate(width, height), width, height, start, end);
+    }
+
+    private void modifyMaze(){
+        defaultIO.terminal().writer().println("Выберите количество плохих территорий");
+        int badSurfaces = defaultIO.getNumOrDefault((int)(width*height * 0.20), 0, (int)(width*height * 0.40));
+        defaultIO.terminal().writer().println("Выберите количество хороших территорий");
+        int goodSurfaces = defaultIO.getNumOrDefault((int)(width*height * 0.20), 0, (int)(width*height * 0.40));
+        maze.modifyMaze((int)((width*height) * 0.08), badSurfaces, goodSurfaces);
+    }
+
+    private void getGeneratorAndSolver(){
+        int generatorInd = defaultIO.chooseObjectByIndex("Выберите генератор", new ArrayList<>(generatorsList));
+        generator = generatorsList.get(generatorInd);
+
+        int solverInd = defaultIO.chooseObjectByIndex("Выберите алгоритм решения", new ArrayList<>(solversForLabyrinthType));
+        solver = solversForLabyrinthType.get(solverInd);
+    }
+
+    private void getBaseParams(){
+        int labyrinthType = defaultIO.chooseObjectMeny("Выберите тип лабиринта", labyrinthTypes);
+
+        width = defaultIO.getSomeIntParams("Введите ширину лабиринта", DEFAULT_WIDTH);
+        height = defaultIO.getSomeIntParams("Введите высоту лабиринта", DEFAULT_HEIGHT);
+
+        if(labyrinthType == 1){
+            solversForLabyrinthType = weightedSolversList;
+            WeightedVisualizer weightedVisualizer = new WeightedVisualizer();
+            defaultIO.visualizer(weightedVisualizer);
+        }
     }
 }
