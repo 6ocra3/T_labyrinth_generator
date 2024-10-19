@@ -39,14 +39,16 @@ public class Labyrinth {
         Maze maze = new Maze(generator.generate(width, height),width, height, start, end);
 
         defaultIO.visualizeMaze(maze);
+        maze.modifyMaze(5);
+        defaultIO.visualizeMaze(maze);
 
-        AtomicBoolean interrupted = new AtomicBoolean(false);
-
-        Signal.handle(new Signal("INT"), signal -> {
-            interrupted.set(true);
-        });
-
-        defaultIO.visualizeStepByStep(solver, maze, interrupted);
+//        AtomicBoolean interrupted = new AtomicBoolean(false);
+//
+//        Signal.handle(new Signal("INT"), signal -> {
+//            interrupted.set(true);
+//        });
+//
+//        defaultIO.visualizeStepByStep(solver, maze, interrupted);
 
 
     }

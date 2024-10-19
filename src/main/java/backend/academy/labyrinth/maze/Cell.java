@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class Cell implements Serializable {
     Point point;
-    List<Cell> neighbours = new ArrayList<>();
+    Set<Cell> neighbours = new HashSet<>();
     @Setter
     CellType type = CellType.DEFAULT;
     private Cell topNeighbour = null;
@@ -24,7 +26,10 @@ public class Cell implements Serializable {
         point = p;
     }
 
-    public void addNeighbour(Cell cell){
+    public boolean addNeighbour(Cell cell){
+        if(!neighbours.add(cell)){
+            return false;
+        }
         switch (cell.point.y() - point.y()){
             case 1:
                 bottomNeighbour = cell;
@@ -41,6 +46,6 @@ public class Cell implements Serializable {
                 leftNeighbour = cell;
                 break;
         }
-        neighbours.add(cell);
+        return true;
     }
 }

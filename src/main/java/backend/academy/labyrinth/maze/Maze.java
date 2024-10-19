@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Maze implements Serializable {
 
@@ -48,6 +49,21 @@ public class Maze implements Serializable {
         for(List<Cell> row : maze){
             for(Cell cell : row){
                 cell.visited(value);
+            }
+        }
+    }
+
+    public void modifyMaze(int newEdgesNum){
+        Random rnd = new Random();
+        for(int i = 0; i<newEdgesNum;i++){
+            int[][] dxdy = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+            int[] curDxdy = dxdy[rnd.nextInt(4)];
+            int x = rnd.nextInt(width-2)+1;
+            int y = rnd.nextInt(height-2)+1;
+            Cell cell1 = maze.get(y).get(x);
+            Cell cell2 = maze.get(y + curDxdy[1]).get(x+curDxdy[0]);
+            if(!cell1.addNeighbour(cell2) || !cell2.addNeighbour(cell1)){
+                i--;
             }
         }
     }
