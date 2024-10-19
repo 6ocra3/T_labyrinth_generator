@@ -2,7 +2,6 @@ package backend.academy.labyrinth.solvers;
 
 import backend.academy.labyrinth.maze.Cell;
 import backend.academy.labyrinth.maze.Maze;
-import org.apache.commons.lang3.SerializationUtils;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,28 +11,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import org.apache.commons.lang3.SerializationUtils;
 
 public class BFSSolver implements Solver {
-    public BFSSolver(){
+    public BFSSolver() {
 
     }
 
-    public String getShortInfo(){
+    public String getShortInfo() {
         return "BFS Solver";
     }
 
-    public void bfs(Cell start, Cell end, Queue<Cell> queue){
+    public void bfs(Cell start, Cell end, Queue<Cell> queue) {
         Map<Cell, Cell> path = new HashMap<>();
         Set<Cell> visited = new HashSet<>();
         visited.add(start);
         queue.add(start);
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             Cell cur = queue.poll();
-            if(cur == end){
+            if (cur == end) {
                 break;
             }
-            for(Cell neighbour : cur.neighbours()){
-                if(!visited.contains(neighbour)){
+            for (Cell neighbour : cur.neighbours()) {
+                if (!visited.contains(neighbour)) {
                     visited.add(neighbour);
                     path.put(neighbour, cur);
                     queue.add(neighbour);
@@ -42,14 +42,14 @@ public class BFSSolver implements Solver {
         }
         Cell backPath = end;
         end.visited(true);
-        while (path.get(backPath) != null){
+        while (path.get(backPath) != null) {
             backPath = path.get(backPath);
             backPath.visited(true);
         }
     }
 
     @Override
-    public Maze solve(Maze maze){
+    public Maze solve(Maze maze) {
         Maze solvedMaze = SerializationUtils.clone(maze);
         Cell start = solvedMaze.start();
         Cell end = solvedMaze.end();
@@ -58,7 +58,11 @@ public class BFSSolver implements Solver {
         return solvedMaze;
     }
 
-    public class SolverIterator implements Iterator{
+    public Iterator<Maze> getIterator(Maze maze) {
+        return new SolverIterator(maze);
+    }
+
+    public class SolverIterator implements Iterator {
 
         List<Cell> prevStep = new ArrayList<>();
         Maze solvedMaze;
@@ -67,8 +71,7 @@ public class BFSSolver implements Solver {
         Set<Cell> visited = new HashSet<>();
         Cell end;
 
-
-        public SolverIterator(Maze maze){
+        public SolverIterator(Maze maze) {
             solvedMaze = SerializationUtils.clone(maze);
             end = solvedMaze.end();
             solvedMaze.start().visited(true);
@@ -83,14 +86,14 @@ public class BFSSolver implements Solver {
         @Override
         public Object next() {
             List<Cell> curStep = new ArrayList<>();
-            for(Cell cell : prevStep){
-                for(Cell neighbour : cell.neighbours()){
-                    if(!neighbour.visited()){
+            for (Cell cell : prevStep) {
+                for (Cell neighbour : cell.neighbours()) {
+                    if (!neighbour.visited()) {
                         visited.add(neighbour);
                         curStep.add(neighbour);
                         path.put(neighbour, cell);
                         neighbour.visited(true);
-                        if(neighbour == end){
+                        if (neighbour == end) {
                             isFinished = true;
                             break;
                         }
@@ -101,13 +104,13 @@ public class BFSSolver implements Solver {
                 }
             }
             prevStep = curStep;
-            if(!isFinished){
+            if (!isFinished) {
                 return solvedMaze;
             }
 
             solvedMaze.setAllVisitedTo(false);
             Cell backPath = end;
-            while (path.get(backPath) != null){
+            while (path.get(backPath) != null) {
                 backPath = path.get(backPath);
                 backPath.visited(true);
             }
@@ -115,9 +118,4 @@ public class BFSSolver implements Solver {
 
         }
     }
-
-    public Iterator<Maze> getIterator(Maze maze){
-        return new SolverIterator(maze);
-    }
-
 }

@@ -6,5 +6,6 @@ import java.util.Iterator;
 
 public interface Solver extends BaseObject {
     Maze solve(Maze maze);
+
     Iterator<Maze> getIterator(Maze maze);
 }

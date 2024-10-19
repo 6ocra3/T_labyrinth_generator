@@ -1,13 +1,11 @@
 package backend.academy.labyrinth.maze;
 
 import backend.academy.labyrinth.extraStructures.point.Point;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 public class Cell implements Serializable {
@@ -22,7 +20,7 @@ public class Cell implements Serializable {
     @Getter @Setter
     boolean visited = false;
 
-    public Cell(Point p){
+    public Cell(Point p) {
         point = p;
     }
 
@@ -37,13 +35,17 @@ public class Cell implements Serializable {
             case -1:
                 topNeighbour = cell;
                 break;
+            default:
+                break;
         }
-        switch (cell.point.x() - point.x()){
+        switch (cell.point.x() - point.x()) {
             case 1:
                 rightNeighbour = cell;
                 break;
             case -1:
                 leftNeighbour = cell;
+                break;
+            default:
                 break;
         }
         return true;
