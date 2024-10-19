@@ -19,14 +19,14 @@ public class WeightedDijkstraSolver implements Solver {
     }
 
     private void weightedDijkstra(Maze maze, Cell start, Cell end){
-        Map<Cell, Integer> distances = new HashMap<>();
         for(int i = 0; i<maze.height();i++){
             for(int j = 0; j<maze.width();j++){
                 maze.maze().get(i).get(j).pathCost(999);
             }
         }
-        distances.put(start, 0);
+        start.pathCost(0);
         PriorityQueue<Path> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(path -> path.pathCost));
+        priorityQueue.add(new Path(start, 0));
 
         while (!priorityQueue.isEmpty()){
             Path current = priorityQueue.poll();

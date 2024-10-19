@@ -9,10 +9,11 @@ import backend.academy.labyrinth.maze.Maze;
 import backend.academy.labyrinth.solvers.BFSSolver;
 import backend.academy.labyrinth.solvers.DFSSolver;
 import backend.academy.labyrinth.solvers.Solver;
+import backend.academy.labyrinth.solvers.WeightedDijkstraSolver;
+import backend.academy.labyrinth.visualizers.WeightedVisualizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Labyrinth {
 
@@ -24,6 +25,8 @@ public class Labyrinth {
 
     public Labyrinth() {
         DefaultIO defaultIO = new DefaultIO();
+        WeightedVisualizer weightedVisualizer = new WeightedVisualizer();
+        defaultIO.visualizer(weightedVisualizer);
 
         int width = defaultIO.getSomeIntParams("Введите ширину лабиринта", DEFAULT_WIDTH);
         int height = defaultIO.getSomeIntParams("Введите высоту лабиринта", DEFAULT_HEIGHT);
@@ -38,18 +41,22 @@ public class Labyrinth {
         Point end = defaultIO.getSomePoint("Введите координаты конца", width - 1, 0, width, height - 1, 0, height);
         Maze maze = new Maze(generator.generate(width, height), width, height, start, end);
 
+        maze.modifyMaze((int)((width*height) * 0.08), 4, 4);
         defaultIO.visualizeMaze(maze);
-        maze.modifyMaze((int)((width*height) * 0.08));
-        defaultIO.visualizeMaze(maze);
 
-        AtomicBoolean interrupted = new AtomicBoolean(false);
+        WeightedDijkstraSolver weightedSolver = new WeightedDijkstraSolver();
+        defaultIO.visualizeMaze(weightedSolver.solve(maze));
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            // Код для обработки прерывания (например, установка значения AtomicBoolean)
-            interrupted.set(true);
-        }));
+//        AtomicBoolean interrupted = new AtomicBoolean(false);
 
-        defaultIO.visualizeStepByStep(solver, maze, interrupted);
+//        AtomicBoolean interrupted = new AtomicBoolean(false);
+//
+//        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+//            // Код для обработки прерывания (например, установка значения AtomicBoolean)
+//            interrupted.set(true);
+//        }));
+//
+//        defaultIO.visualizeStepByStep(solver, maze, interrupted, false);
 
     }
 }

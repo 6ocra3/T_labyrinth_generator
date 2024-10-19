@@ -22,7 +22,7 @@ public class Cell implements Serializable {
     @Setter
     private boolean visited = false;
     @Setter
-    private int pathCost = -1;
+    private int pathCost = 999;
 
     public int getSurfaceModifier(){
         return this.surface.value();

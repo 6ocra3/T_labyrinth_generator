@@ -5,6 +5,7 @@ import backend.academy.labyrinth.extraStructures.point.Point;
 import backend.academy.labyrinth.maze.Maze;
 import backend.academy.labyrinth.solvers.BFSSolver;
 import backend.academy.labyrinth.solvers.DFSSolver;
+import backend.academy.labyrinth.visualizers.AbstractVisualizer;
 import backend.academy.labyrinth.visualizers.DefaultVisualizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,8 @@ public class DefaultVisualizerTest {
 
     @Test
     public void testVisualizer(){
-        String ans = DefaultVisualizer.visualizeMaze(maze);
+        AbstractVisualizer visualizer = new DefaultVisualizer();
+        String ans = visualizer.visualizeMaze(maze);
         assertEquals(visualizedMaze, ans);
     }
 

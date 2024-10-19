@@ -4,6 +4,7 @@ import backend.academy.labyrinth.extraStructures.BaseObject;
 import backend.academy.labyrinth.extraStructures.point.Point;
 import backend.academy.labyrinth.maze.Maze;
 import backend.academy.labyrinth.solvers.Solver;
+import backend.academy.labyrinth.visualizers.AbstractVisualizer;
 import backend.academy.labyrinth.visualizers.DefaultVisualizer;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +20,8 @@ import org.slf4j.LoggerFactory;
 public class DefaultIO {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultIO.class);
     protected Terminal terminal;
+    @Setter
+    AbstractVisualizer visualizer;
     @Setter
     protected LineReader lineReader;
     static final int FRAME_DELAY = 80;
@@ -36,7 +39,7 @@ public class DefaultIO {
 
     public void visualizeMaze(Maze maze) {
         clearOutput();
-        terminal.writer().println(DefaultVisualizer.visualizeMaze(maze));
+        terminal.writer().println(visualizer.visualizeMaze(maze));
         terminal.flush();
     }
 
@@ -82,6 +85,7 @@ public class DefaultIO {
 
     public int getNumOrDefault(int defaultNum, int min, int max) {
         int num;
+        terminal.writer().print("(default - " + defaultNum + ") ");
         String input = lineReader.readLine();
         try {
             num = Integer.parseInt(input);
@@ -91,6 +95,7 @@ public class DefaultIO {
         } catch (NumberFormatException e) {
             num = defaultNum;
         }
+        terminal.writer().println();
         return num;
     }
 

@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 enum SurfaceType {
-    BadSurface(3),
-    DefaultSurface(2),
+    BadSurface(5),
+    DefaultSurface(3),
     GoodSurface(1);
 
     private final int value;

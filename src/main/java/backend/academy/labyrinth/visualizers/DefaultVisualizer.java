@@ -1,78 +1,17 @@
 package backend.academy.labyrinth.visualizers;
 
 import backend.academy.labyrinth.maze.Cell;
-import backend.academy.labyrinth.maze.Maze;
-import java.util.List;
 
-public class DefaultVisualizer {
+public class DefaultVisualizer extends AbstractVisualizer {
 
-    static final String CORNER = "○";
-    static final String TOP_BOT = "───";
-    static final String EMPTY_TOP_BOT = "   ";
-    static final String EMPTY_LEFT_RIGHT = " ";
-    static final String LEFT_RIGHT = "│";
-    static final String DEFAULT_CELL = EMPTY_TOP_BOT;
-    static final String START_CELL = " A ";
-    static final String END_CELL = " B ";
     static final String VISITED_CELL = " * ";
 
-    private DefaultVisualizer() {
+    public DefaultVisualizer() {
 
     }
 
-    public static String visualizeMaze(Maze maze) {
-        StringBuilder itog = new StringBuilder();
-
-        for (int i = 0; i < maze.maze().size(); i++) {
-            List<Cell> row = maze.maze().get(i);
-            if (i == 0) {
-                String topPart = getTopPart(row).append("\n").toString();
-                itog.append(topPart);
-            }
-
-            String middlePart = getMiddlePart(row).append("\n").toString();
-            itog.append(middlePart);
-
-            String botPart = getBottomPart(row).append("\n").toString();
-            itog.append(botPart);
-        }
-
-        return itog.toString();
+    @Override
+    public String getCellInMaze(Cell cell) {
+        return cell.visited() ? VISITED_CELL : DEFAULT_CELL;
     }
-
-    public static StringBuilder getTopPart(List<Cell> row) {
-        StringBuilder topPart = new StringBuilder();
-        for (Cell cell : row) {
-            topPart.append(CORNER);
-            topPart.append(cell.topNeighbour() != null ? EMPTY_TOP_BOT : TOP_BOT);
-        }
-        topPart.append(CORNER);
-        return topPart;
-    }
-
-    public static StringBuilder getMiddlePart(List<Cell> row) {
-        StringBuilder middlePart = new StringBuilder();
-        for (Cell cell : row) {
-            middlePart.append(cell.leftNeighbour() != null ? EMPTY_LEFT_RIGHT : LEFT_RIGHT);
-            switch (cell.type()) {
-                case END -> middlePart.append(END_CELL);
-                case START -> middlePart.append(START_CELL);
-                case DEFAULT -> middlePart.append(cell.visited() ? VISITED_CELL : DEFAULT_CELL);
-                default -> middlePart.append(DEFAULT_CELL);
-            }
-        }
-        middlePart.append(LEFT_RIGHT);
-        return middlePart;
-    }
-
-    public static StringBuilder getBottomPart(List<Cell> row) {
-        StringBuilder bottomPart = new StringBuilder();
-        for (Cell cell : row) {
-            bottomPart.append(CORNER);
-            bottomPart.append(cell.bottomNeighbour() != null ? EMPTY_TOP_BOT : TOP_BOT);
-        }
-        bottomPart.append(CORNER);
-        return bottomPart;
-    }
-
 }
