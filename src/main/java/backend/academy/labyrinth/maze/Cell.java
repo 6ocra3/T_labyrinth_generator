@@ -9,6 +9,7 @@ import lombok.Setter;
 
 @Getter
 public class Cell implements Serializable {
+    public static final int MAX_PATH_COST = 999;
     private final Point point;
     private final Set<Cell> neighbours = new HashSet<>();
     @Setter
@@ -22,9 +23,9 @@ public class Cell implements Serializable {
     @Setter
     private boolean visited = false;
     @Setter
-    private int pathCost = 999;
+    private int pathCost = MAX_PATH_COST;
 
-    public int getSurfaceModifier(){
+    public int getSurfaceModifier() {
         return this.surface.value();
     }
 
@@ -32,11 +33,11 @@ public class Cell implements Serializable {
         point = p;
     }
 
-    public boolean addNeighbour(Cell cell){
-        if(!neighbours.add(cell)){
+    public boolean addNeighbour(Cell cell) {
+        if (!neighbours.add(cell)) {
             return false;
         }
-        switch (cell.point.y() - point.y()){
+        switch (cell.point.y() - point.y()) {
             case 1:
                 bottomNeighbour = cell;
                 break;

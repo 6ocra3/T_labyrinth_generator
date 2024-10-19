@@ -17,6 +17,7 @@ import java.util.List;
 
 public class Labyrinth {
 
+    static final double BORDER_MULTIPLY = 0.2;
     static final int DEFAULT_WIDTH = 16;
     static final int DEFAULT_HEIGHT = 16;
 
@@ -42,7 +43,7 @@ public class Labyrinth {
 
         createMaze();
 
-        if(labyrinthType == 1){
+        if (labyrinthType == 1) {
             modifyMaze();
         }
 
@@ -52,36 +53,38 @@ public class Labyrinth {
 
     }
 
-    private void createMaze(){
+    private void createMaze() {
         Point start = defaultIO.getSomePoint("Введите координаты старта", 0, 0, width, 0, 0, height);
         Point end = defaultIO.getSomePoint("Введите координаты конца", width - 1, 0, width, height - 1, 0, height);
         maze = new Maze(generator.generate(width, height), width, height, start, end);
     }
 
-    private void modifyMaze(){
+    private void modifyMaze() {
         defaultIO.terminal().writer().println("Выберите количество плохих территорий");
-        int badSurfaces = defaultIO.getNumOrDefault((int)(width*height * 0.20), 0, (int)(width*height * 0.40));
+        int badSurfaces = defaultIO.getNumOrDefault((int) (width * height * BORDER_MULTIPLY), 0,
+            (int) (width * height * (BORDER_MULTIPLY * 2)));
         defaultIO.terminal().writer().println("Выберите количество хороших территорий");
-        int goodSurfaces = defaultIO.getNumOrDefault((int)(width*height * 0.20), 0, (int)(width*height * 0.40));
-        maze.modifyMaze((int)((width*height) * 0.15), badSurfaces, goodSurfaces);
+        int goodSurfaces = defaultIO.getNumOrDefault((int) (width * height * BORDER_MULTIPLY), 0,
+            (int) (width * height * (BORDER_MULTIPLY * 2)));
+        maze.modifyMaze((int) ((width * height) * BORDER_MULTIPLY), badSurfaces, goodSurfaces);
     }
 
-    private void getGeneratorAndSolver(){
+    private void getGeneratorAndSolver() {
         int generatorInd = defaultIO.chooseObjectByIndex("Выберите генератор", new ArrayList<>(generatorsList));
         generator = generatorsList.get(generatorInd);
 
-        int solverInd = defaultIO.chooseObjectByIndex("Выберите алгоритм решения", new ArrayList<>(solversForLabyrinthType));
+        int solverInd =
+            defaultIO.chooseObjectByIndex("Выберите алгоритм решения", new ArrayList<>(solversForLabyrinthType));
         solver = solversForLabyrinthType.get(solverInd);
     }
 
-    private void getBaseParams(){
+    private void getBaseParams() {
         labyrinthType = defaultIO.chooseObjectMeny("Выберите тип лабиринта", labyrinthTypes);
-        System.out.println(labyrinthType);
 
         width = defaultIO.getSomeIntParams("Введите ширину лабиринта", DEFAULT_WIDTH);
         height = defaultIO.getSomeIntParams("Введите высоту лабиринта", DEFAULT_HEIGHT);
 
-        if(labyrinthType == 1){
+        if (labyrinthType == 1) {
             solversForLabyrinthType = weightedSolversList;
             WeightedVisualizer weightedVisualizer = new WeightedVisualizer();
             defaultIO.visualizer(weightedVisualizer);

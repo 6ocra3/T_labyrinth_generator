@@ -63,12 +63,12 @@ public class Maze implements Serializable {
         changeSurface(goodSurfaceNum, SurfaceType.GoodSurface);
     }
 
-    private void addCycles(int newEdgesNum){
+    private void addCycles(int newEdgesNum) {
         Random rnd = new Random();
         int[][] dxdy = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
         int cnt = 0;
         while (cnt < newEdgesNum) {
-            int[] curDxdy = dxdy[rnd.nextInt(4)];
+            int[] curDxdy = dxdy[rnd.nextInt(dxdy.length)];
             int x = rnd.nextInt(width - 2) + 1;
             int y = rnd.nextInt(height - 2) + 1;
             Cell cell1 = maze.get(y).get(x);
@@ -86,7 +86,7 @@ public class Maze implements Serializable {
             int x = rnd.nextInt(width);
             int y = rnd.nextInt(width);
             Cell cell = maze.get(y).get(x);
-            if(cell.surface() == SurfaceType.DefaultSurface && cell.type() == CellType.DEFAULT){
+            if (cell.surface() == SurfaceType.DefaultSurface && cell.type() == CellType.DEFAULT) {
                 cnt++;
                 cell.surface(surfaceType);
             }

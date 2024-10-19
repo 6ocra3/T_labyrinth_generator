@@ -10,7 +10,7 @@ enum SurfaceType {
 
     private final int value;
 
-    int value(){
+    int value() {
         return value;
     }
 

@@ -12,6 +12,6 @@ public class DefaultVisualizer extends AbstractVisualizer {
 
     @Override
     public String getCellInMaze(Cell cell) {
-        return cell.visited() ? VISITED_CELL : DEFAULT_CELL;
+        return cell.visited() ? VISITED_CELL : defaultCell;
     }
 }

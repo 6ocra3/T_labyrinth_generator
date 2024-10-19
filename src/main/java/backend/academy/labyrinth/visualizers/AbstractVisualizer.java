@@ -6,14 +6,14 @@ import java.util.List;
 
 public abstract class AbstractVisualizer {
 
-    protected String CORNER = "○";
-    protected String TOP_BOT = "───";
-    protected String EMPTY_TOP_BOT = "   ";
-    protected String EMPTY_LEFT_RIGHT = " ";
-    protected String LEFT_RIGHT = "│";
-    protected String DEFAULT_CELL = EMPTY_TOP_BOT;
-    protected String START_CELL = " A ";
-    protected String END_CELL = " B ";
+    protected String corner = "○";
+    protected String topBot = "───";
+    protected String emptyTopBot = "   ";
+    protected String emptyLeftRight = " ";
+    protected String leftRight = "│";
+    protected String defaultCell = emptyTopBot;
+    protected String startCell = " A ";
+    protected String endCell = " B ";
 
     public abstract String getCellInMaze(Cell cell);
 
@@ -40,35 +40,35 @@ public abstract class AbstractVisualizer {
     protected StringBuilder getTopPart(List<Cell> row) {
         StringBuilder topPart = new StringBuilder();
         for (Cell cell : row) {
-            topPart.append(CORNER);
-            topPart.append(cell.topNeighbour() != null ? EMPTY_TOP_BOT : TOP_BOT);
+            topPart.append(corner);
+            topPart.append(cell.topNeighbour() != null ? emptyTopBot : topBot);
         }
-        topPart.append(CORNER);
+        topPart.append(corner);
         return topPart;
     }
 
     protected StringBuilder getMiddlePart(List<Cell> row) {
         StringBuilder middlePart = new StringBuilder();
         for (Cell cell : row) {
-            middlePart.append(cell.leftNeighbour() != null ? EMPTY_LEFT_RIGHT : LEFT_RIGHT);
+            middlePart.append(cell.leftNeighbour() != null ? emptyLeftRight : leftRight);
             switch (cell.type()) {
-                case END -> middlePart.append(END_CELL);
-                case START -> middlePart.append(START_CELL);
+                case END -> middlePart.append(endCell);
+                case START -> middlePart.append(startCell);
                 case DEFAULT -> middlePart.append(getCellInMaze(cell));
-                default -> middlePart.append(DEFAULT_CELL);
+                default -> middlePart.append(defaultCell);
             }
         }
-        middlePart.append(LEFT_RIGHT);
+        middlePart.append(leftRight);
         return middlePart;
     }
 
     protected StringBuilder getBottomPart(List<Cell> row) {
         StringBuilder bottomPart = new StringBuilder();
         for (Cell cell : row) {
-            bottomPart.append(CORNER);
-            bottomPart.append(cell.bottomNeighbour() != null ? EMPTY_TOP_BOT : TOP_BOT);
+            bottomPart.append(corner);
+            bottomPart.append(cell.bottomNeighbour() != null ? emptyTopBot : topBot);
         }
-        bottomPart.append(CORNER);
+        bottomPart.append(corner);
         return bottomPart;
     }
 }
