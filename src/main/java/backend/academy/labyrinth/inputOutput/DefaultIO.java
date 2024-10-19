@@ -16,12 +16,14 @@ import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import sun.misc.Signal;
+import sun.misc.SignalHandler;
 
 public class DefaultIO {
     @Getter
     protected Terminal terminal;
     @Setter
-    AbstractVisualizer visualizer;
+    AbstractVisualizer visualizer = new DefaultVisualizer();
     @Setter
     protected LineReader lineReader;
     static final int FRAME_DELAY = 200;
@@ -46,9 +48,14 @@ public class DefaultIO {
     public void visualizeStepByStep(Solver solver, Maze maze) {
         AtomicBoolean interrupted = new AtomicBoolean(false);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            interrupted.set(true);
-        }));
+        SignalHandler handler = new SignalHandler() {
+            @Override
+            public void handle(Signal signal) {
+                interrupted.set(true);
+            }
+        };
+
+        Signal.handle(new Signal("INT"), handler);
 
         Iterator<Maze> solvIterator = solver.getIterator(maze);
         while (solvIterator.hasNext()) {
@@ -57,9 +64,11 @@ public class DefaultIO {
             }
             this.visualizeMaze(solvIterator.next());
             terminal.writer().println("Ctrl+C to skip");
+            terminal.flush();
             try {
                 Thread.sleep(FRAME_DELAY);
             } catch (InterruptedException _) {
+
             }
         }
         Maze solvedMaze = solver.solve(maze);

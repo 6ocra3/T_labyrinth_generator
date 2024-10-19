@@ -48,9 +48,6 @@ public class Labyrinth {
 
         defaultIO.visualizeMaze(maze);
 
-        WeightedDijkstraSolver weightedSolver = new WeightedDijkstraSolver();
-        defaultIO.visualizeMaze(weightedSolver.solve(maze));
-
         defaultIO.visualizeStepByStep(solver, maze);
 
     }
@@ -66,7 +63,7 @@ public class Labyrinth {
         int badSurfaces = defaultIO.getNumOrDefault((int)(width*height * 0.20), 0, (int)(width*height * 0.40));
         defaultIO.terminal().writer().println("Выберите количество хороших территорий");
         int goodSurfaces = defaultIO.getNumOrDefault((int)(width*height * 0.20), 0, (int)(width*height * 0.40));
-        maze.modifyMaze((int)((width*height) * 0.08), badSurfaces, goodSurfaces);
+        maze.modifyMaze((int)((width*height) * 0.15), badSurfaces, goodSurfaces);
     }
 
     private void getGeneratorAndSolver(){
@@ -78,7 +75,8 @@ public class Labyrinth {
     }
 
     private void getBaseParams(){
-        int labyrinthType = defaultIO.chooseObjectMeny("Выберите тип лабиринта", labyrinthTypes);
+        labyrinthType = defaultIO.chooseObjectMeny("Выберите тип лабиринта", labyrinthTypes);
+        System.out.println(labyrinthType);
 
         width = defaultIO.getSomeIntParams("Введите ширину лабиринта", DEFAULT_WIDTH);
         height = defaultIO.getSomeIntParams("Введите высоту лабиринта", DEFAULT_HEIGHT);
