@@ -10,7 +10,9 @@ import lombok.Getter;
 
 public class Maze implements Serializable {
 
+    @Getter
     int width;
+    @Getter
     int height;
     @Getter
     Cell start;

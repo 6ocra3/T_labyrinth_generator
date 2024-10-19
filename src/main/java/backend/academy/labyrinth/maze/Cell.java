@@ -21,6 +21,12 @@ public class Cell implements Serializable {
     private Cell leftNeighbour = null;
     @Setter
     private boolean visited = false;
+    @Setter
+    private int pathCost = -1;
+
+    public int getSurfaceModifier(){
+        return this.surface.value();
+    }
 
     public Cell(Point p) {
         point = p;

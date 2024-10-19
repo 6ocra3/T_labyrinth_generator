@@ -12,9 +12,7 @@ import org.apache.commons.lang3.SerializationUtils;
 
 
 public class DFSSolver implements Solver {
-    public DFSSolver() {
-
-    }
+    public DFSSolver() {}
 
     public String getShortInfo() {
         return "DFS Solver";
