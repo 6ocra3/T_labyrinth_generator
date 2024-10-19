@@ -9,16 +9,18 @@ import lombok.Setter;
 
 @Getter
 public class Cell implements Serializable {
-    Point point;
-    Set<Cell> neighbours = new HashSet<>();
+    private final Point point;
+    private final Set<Cell> neighbours = new HashSet<>();
     @Setter
-    CellType type = CellType.DEFAULT;
+    private SurfaceType surface = SurfaceType.DefaultSurface;
+    @Setter
+    private CellType type = CellType.DEFAULT;
     private Cell topNeighbour = null;
     private Cell rightNeighbour = null;
     private Cell bottomNeighbour = null;
     private Cell leftNeighbour = null;
-    @Getter @Setter
-    boolean visited = false;
+    @Setter
+    private boolean visited = false;
 
     public Cell(Point p) {
         point = p;

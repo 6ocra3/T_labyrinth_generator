@@ -57,15 +57,35 @@ public class Maze implements Serializable {
 
     public void modifyMaze(int newEdgesNum) {
         Random rnd = new Random();
-        for (int i = 0; i < newEdgesNum; i++) {
-            int[][] dxdy = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        int[][] dxdy = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        int cnt = 0;
+        while (cnt < newEdgesNum) {
             int[] curDxdy = dxdy[rnd.nextInt(4)];
             int x = rnd.nextInt(width - 2) + 1;
             int y = rnd.nextInt(height - 2) + 1;
             Cell cell1 = maze.get(y).get(x);
             Cell cell2 = maze.get(y + curDxdy[1]).get(x + curDxdy[0]);
-            if (!cell1.addNeighbour(cell2) || !cell2.addNeighbour(cell1)) {
-                i--;
+            if (cell1.addNeighbour(cell2) && cell2.addNeighbour(cell1)) {
+                cnt++;
+            }
+        }
+    }
+
+    public void addDifferentSurfaces(int badSurfaceNum, int goodSurfaceNum) {
+        changeSurface(badSurfaceNum, SurfaceType.BadSurface);
+        changeSurface(goodSurfaceNum, SurfaceType.GoodSurface);
+    }
+
+    private void changeSurface(int countChanging, SurfaceType surfaceType) {
+        int cnt = 0;
+        Random rnd = new Random();
+        while (cnt < countChanging) {
+            int x = rnd.nextInt(width);
+            int y = rnd.nextInt(width);
+            Cell cell = maze.get(y).get(x);
+            if(cell.surface() == SurfaceType.DefaultSurface){
+                cnt++;
+                cell.surface(surfaceType);
             }
         }
     }

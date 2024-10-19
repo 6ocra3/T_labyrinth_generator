@@ -42,14 +42,14 @@ public class Labyrinth {
         maze.modifyMaze((int)((width*height) * 0.08));
         defaultIO.visualizeMaze(maze);
 
-//        AtomicBoolean interrupted = new AtomicBoolean(false);
-//
-//        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-//            // Код для обработки прерывания (например, установка значения AtomicBoolean)
-//            interrupted.set(true);
-//        }));
-//
-//        defaultIO.visualizeStepByStep(solver, maze, interrupted);
+        AtomicBoolean interrupted = new AtomicBoolean(false);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Код для обработки прерывания (например, установка значения AtomicBoolean)
+            interrupted.set(true);
+        }));
+
+        defaultIO.visualizeStepByStep(solver, maze, interrupted);
 
     }
 }
