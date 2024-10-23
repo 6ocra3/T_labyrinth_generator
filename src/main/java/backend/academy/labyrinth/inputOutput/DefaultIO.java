@@ -8,7 +8,6 @@ import backend.academy.labyrinth.visualizers.AbstractVisualizer;
 import backend.academy.labyrinth.visualizers.DefaultVisualizer;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +15,6 @@ import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
 
 public class DefaultIO {
     @Getter
@@ -34,7 +31,7 @@ public class DefaultIO {
                 .system(true)
                 .build();
             lineReader = LineReaderBuilder.builder().terminal(terminal).build();
-        } catch (Exception _) {
+        } catch (Exception e) {
 
         }
     }
@@ -46,28 +43,13 @@ public class DefaultIO {
     }
 
     public void visualizeStepByStep(Solver solver, Maze maze) {
-        AtomicBoolean interrupted = new AtomicBoolean(false);
-
-        SignalHandler handler = new SignalHandler() {
-            @Override
-            public void handle(Signal signal) {
-                interrupted.set(true);
-            }
-        };
-
-        Signal.handle(new Signal("INT"), handler);
-
         Iterator<Maze> solvIterator = solver.getIterator(maze);
         while (solvIterator.hasNext()) {
-            if (interrupted.get()) {
-                break;
-            }
             this.visualizeMaze(solvIterator.next());
-            terminal.writer().println("Ctrl+C to skip");
-            terminal.flush();
+
             try {
                 Thread.sleep(FRAME_DELAY);
-            } catch (InterruptedException _) {
+            } catch (InterruptedException e) {
 
             }
         }
