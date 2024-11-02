@@ -13,14 +13,12 @@ import lombok.Setter;
 
 public class KruskalGenerator implements Generator {
 
-    int width;
-    int height;
-    Map<Point, Point> roots = new HashMap<>();
-    List<Edge> edges = new ArrayList<>();
+    private final Map<Point, Point> roots = new HashMap<>();
+    private final List<Edge> edges = new ArrayList<>();
     @Setter
-    Random rnd = new Random();
+    private Random rnd = new Random();
     @Getter
-    List<Edge> maze = new ArrayList<>();
+    private List<Edge> maze = new ArrayList<>();
 
     @Override
     public String getShortInfo() {
@@ -47,8 +45,6 @@ public class KruskalGenerator implements Generator {
 
     @Override
     public List<Edge> generate(int width, int height) {
-        this.width = width;
-        this.height = height;
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {

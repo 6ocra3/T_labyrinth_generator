@@ -33,8 +33,13 @@ public class SolversTest {
     @Test
     public void testSolveReturnsCorrectPath() {
         for(Solver solver : solvers){
-            Maze solvedMaze = solver.solve(maze);
+            // Arrange
             Set<Cell> visitedBySearch = new HashSet<>();
+
+            // Act
+            Maze solvedMaze = solver.solve(maze);
+
+            // Assert
             Cell start = solvedMaze.start();
             Cell end = solvedMaze.end();
 

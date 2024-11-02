@@ -15,27 +15,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Labyrinth {
+public class LabyrinthApp {
 
-    static final double BORDER_MULTIPLY = 0.2;
-    static final int DEFAULT_WIDTH = 16;
-    static final int DEFAULT_HEIGHT = 16;
+    private static final double BORDER_MULTIPLY = 0.2;
+    private static final int DEFAULT_WIDTH = 16;
+    private static final int DEFAULT_HEIGHT = 16;
 
-    DefaultIO defaultIO = new DefaultIO();
-    List<Generator> generatorsList = Arrays.asList(new HuntAndKillGenerator(), new KruskalGenerator());
-    List<Solver> solversList = Arrays.asList(new BFSSolver(), new DFSSolver());
-    List<Solver> weightedSolversList = List.of(new WeightedDijkstraSolver());
-    List<Solver> solversForLabyrinthType = solversList;
-    List<String> labyrinthTypes = Arrays.asList("Простой лабиринт", "Лабиринт с циклами и взвешенными ребрами");
+    private final DefaultIO defaultIO = new DefaultIO();
+    private final List<Generator> generatorsList = Arrays.asList(new HuntAndKillGenerator(), new KruskalGenerator());
+    private final List<Solver> solversList = Arrays.asList(new BFSSolver(), new DFSSolver());
+    private final List<Solver> weightedSolversList = List.of(new WeightedDijkstraSolver());
+    private final List<String> labyrinthTypes =
+        Arrays.asList("Простой лабиринт", "Лабиринт с циклами и взвешенными ребрами");
+    private List<Solver> solversForLabyrinthType = solversList;
 
-    int width;
-    int height;
-    Maze maze;
-    Generator generator;
-    Solver solver;
-    int labyrinthType;
+    private int width;
+    private int height;
+    private Maze maze;
+    private Generator generator;
+    private Solver solver;
+    private int labyrinthType;
 
-    public Labyrinth() {
+    public LabyrinthApp() {
 
         getBaseParams();
 

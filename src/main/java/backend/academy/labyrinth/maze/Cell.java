@@ -16,10 +16,10 @@ public class Cell implements Serializable {
     private SurfaceType surface = SurfaceType.DefaultSurface;
     @Setter
     private CellType type = CellType.DEFAULT;
-    private Cell topNeighbour = null;
-    private Cell rightNeighbour = null;
-    private Cell bottomNeighbour = null;
-    private Cell leftNeighbour = null;
+    private Cell topNeighbour;
+    private Cell rightNeighbour;
+    private Cell bottomNeighbour;
+    private Cell leftNeighbour;
     @Setter
     private boolean visited = false;
     @Setter

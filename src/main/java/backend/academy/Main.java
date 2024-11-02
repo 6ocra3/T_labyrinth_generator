@@ -1,11 +1,13 @@
 package backend.academy;
 
-import backend.academy.labyrinth.Labyrinth;
-import lombok.experimental.UtilityClass;
+import backend.academy.labyrinth.LabyrinthApp;
 
-@UtilityClass
 public class Main {
+
+    private Main() {
+    }
+
     public static void main(String[] args) {
-        Labyrinth labyrinth = new Labyrinth();
+        LabyrinthApp labyrinth = new LabyrinthApp();
     }
 }

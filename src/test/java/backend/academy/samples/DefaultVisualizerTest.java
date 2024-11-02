@@ -35,8 +35,13 @@ public class DefaultVisualizerTest {
 
     @Test
     public void testVisualizer(){
+        // Arrange
         AbstractVisualizer visualizer = new DefaultVisualizer();
+
+        // Act
         String ans = visualizer.visualizeMaze(maze);
+
+        //Assert
         assertEquals(visualizedMaze, ans);
     }
 

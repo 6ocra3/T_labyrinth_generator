@@ -4,7 +4,7 @@ import backend.academy.labyrinth.maze.Cell;
 
 public class DefaultVisualizer extends AbstractVisualizer {
 
-    static final String VISITED_CELL = " * ";
+    static protected final String VISITED_CELL = " * ";
 
     public DefaultVisualizer() {
 

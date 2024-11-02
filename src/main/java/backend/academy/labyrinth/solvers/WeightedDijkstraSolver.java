@@ -58,9 +58,10 @@ public class WeightedDijkstraSolver implements Solver {
     }
 
     public class SolverIterator implements Iterator {
-        PriorityQueue<Path> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(path -> path.pathCost));
-        Maze solvedMaze;
-        boolean isFinished = false;
+        private final PriorityQueue<Path> priorityQueue =
+            new PriorityQueue<>(Comparator.comparingInt(path -> path.pathCost));
+        private final Maze solvedMaze;
+        private boolean isFinished = false;
 
         public SolverIterator(Maze maze) {
             solvedMaze = SerializationUtils.clone(maze);

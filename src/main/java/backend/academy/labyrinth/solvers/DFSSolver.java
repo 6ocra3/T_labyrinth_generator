@@ -49,12 +49,12 @@ public class DFSSolver implements Solver {
     }
 
     public class SolverIterator implements Iterator {
+        private final Set<Cell> visited;
+        private final Cell end;
+        private final Deque<Cell> stack = new ArrayDeque<>();
         @Getter
-        boolean isFinished = false;
-        Maze solvedMaze = null;
-        private Set<Cell> visited;
-        Cell end;
-        Deque<Cell> stack = new ArrayDeque<>();
+        private boolean isFinished = false;
+        private Maze solvedMaze = null;
 
         public SolverIterator(Maze maze) {
             solvedMaze = SerializationUtils.clone(maze);

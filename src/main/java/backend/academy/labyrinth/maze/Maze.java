@@ -8,18 +8,13 @@ import java.util.List;
 import java.util.Random;
 import lombok.Getter;
 
-public class Maze implements Serializable {
+@Getter public class Maze implements Serializable {
 
-    @Getter
-    int width;
-    @Getter
-    int height;
-    @Getter
-    Cell start;
-    @Getter
-    Cell end;
-    @Getter
-    List<List<Cell>> maze = new ArrayList<>();
+    private final int width;
+    private final int height;
+    private final Cell start;
+    private final Cell end;
+    private final List<List<Cell>> maze = new ArrayList<>();
 
     public Maze(List<Edge> labyrinth, int width, int height, Point start, Point end) {
         this.width = width;

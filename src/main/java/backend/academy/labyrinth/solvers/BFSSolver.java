@@ -64,12 +64,11 @@ public class BFSSolver implements Solver {
 
     public class SolverIterator implements Iterator {
 
-        List<Cell> prevStep = new ArrayList<>();
-        Maze solvedMaze;
-        boolean isFinished = false;
-        Map<Cell, Cell> path = new HashMap<>();
-        Set<Cell> visited = new HashSet<>();
-        Cell end;
+        private final Map<Cell, Cell> path = new HashMap<>();
+        private final Cell end;
+        private final Maze solvedMaze;
+        private List<Cell> prevStep = new ArrayList<>();
+        private boolean isFinished = false;
 
         public SolverIterator(Maze maze) {
             solvedMaze = SerializationUtils.clone(maze);
@@ -89,7 +88,6 @@ public class BFSSolver implements Solver {
             for (Cell cell : prevStep) {
                 for (Cell neighbour : cell.neighbours()) {
                     if (!neighbour.visited()) {
-                        visited.add(neighbour);
                         curStep.add(neighbour);
                         path.put(neighbour, cell);
                         neighbour.visited(true);

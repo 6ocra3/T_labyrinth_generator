@@ -27,10 +27,14 @@ public class GeneratorsTest {
         int width = 3;
         int height = 3;
         for (Generator generator : generators) {
-            List<Edge> edges = generator.generate(width, height);
+            // Arrange
             Set<Point> visited = new HashSet<>();
 
-            Point first = edges.getFirst().first(); // Выбираем первую точку первого ребра
+            //Act
+            List<Edge> edges = generator.generate(width, height);
+
+            // Assert
+            Point first = edges.getFirst().first();
             checkConnections(first, edges, visited);
 
             assertEquals(width * height, visited.size(), "Test failed for generator: " + generator.getShortInfo());

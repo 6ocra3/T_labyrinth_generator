@@ -17,13 +17,13 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
 public class DefaultIO {
+    private static final int FRAME_DELAY = 200;
     @Getter
     protected Terminal terminal;
     @Setter
-    AbstractVisualizer visualizer = new DefaultVisualizer();
-    @Setter
     protected LineReader lineReader;
-    static final int FRAME_DELAY = 200;
+    @Setter
+    private AbstractVisualizer visualizer = new DefaultVisualizer();
 
     public DefaultIO() {
         try {
@@ -32,7 +32,7 @@ public class DefaultIO {
                 .build();
             lineReader = LineReaderBuilder.builder().terminal(terminal).build();
         } catch (Exception e) {
-
+            terminal.writer().println("Failed to initialize terminal or line reader" + e);
         }
     }
 
@@ -50,7 +50,7 @@ public class DefaultIO {
             try {
                 Thread.sleep(FRAME_DELAY);
             } catch (InterruptedException e) {
-
+                terminal.writer().println("Visualization interrupted during sleep" + e);
             }
         }
         Maze solvedMaze = solver.solve(maze);

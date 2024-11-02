@@ -10,13 +10,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class HuntAndKillGenerator implements Generator {
-    int width;
-    int height;
+    private int width;
+    private int height;
     @Getter
-    List<Edge> maze = new ArrayList<>();
-    boolean[][] visited;
+    private List<Edge> maze = new ArrayList<>();
+    private boolean[][] visited;
     @Setter
-    Random rnd = new Random();
+    private Random rnd = new Random();
 
     @Override
     public String getShortInfo() {
